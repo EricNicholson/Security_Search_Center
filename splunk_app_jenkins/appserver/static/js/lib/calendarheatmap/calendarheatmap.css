@@ -1,0 +1,23 @@
+.splunk-toolkit-cal-heatmap {
+    margin: 0
+}
+
+.splunk-toolkit-cal-heatmap .heatmap-container {
+    overflow: hidden;
+}
+
+.splunk-toolkit-cal-heatmap .heatmap-container hr {
+    margin-top: 0px;
+}
+
+.splunk-toolkit-cal-heatmap .heatmap-series-title {
+    margin-bottom: 10px;
+    display: inline-block;
+    padding-top: 5px;
+}
+
+.splunk-toolkit-cal-heatmap .heatmap-buttons {
+    margin-bottom: 5px;
+    float: right;
+    display: inline;
+}

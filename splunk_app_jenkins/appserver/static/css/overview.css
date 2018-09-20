@@ -1,0 +1,161 @@
+#overview-panel{
+    position: relative;
+    padding-top: 2px;
+    padding-left: 19px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+}
+
+hr{
+    margin: 10px 0px 10px 0px;
+    border-bottom: none;
+    border-top: 1px solid #ccc;
+}
+
+.filterset-input {
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 5px;
+    vertical-align: top;
+    padding-bottom: 0px !important;
+}
+
+a.hide-slave-sankey {
+    padding-left: 5px;
+}
+
+.overview-build-status{
+    color: #ad6704;
+    font-weight:bold
+}
+.overview-build-status-success{
+    color: #a2cc3e;
+    font-weight:bold
+}
+
+.overview-build-status-unstable{
+    color: #d99f0d;
+    font-weight:bold
+}
+
+.overview-build-status-inprogress{
+    color: #f2b827;
+    font-weight:bold
+}
+
+.overview-build-status-success{
+    color: #a2cc3e;
+    font-weight:bold
+}
+
+.overview-build-status-aborted{
+    color: #1e93c6;
+    font-weight:bold
+}
+
+.overview-build-status-failure{
+    color: #d6563c;
+    font-weight:bold
+}
+
+/*firefox*/
+.select2-container {
+    display: inline-block !important;
+}
+
+
+.view-title {
+    margin-right: 5px;
+}
+
+.dashboard-cell.builds-info {
+    /*height: 340px;*/
+    background-color: white;
+}
+
+.slave-content .dashboard-row .dashboard-panel .dashboard-element {
+    position: relative;
+    margin-top: 5px;
+    height: 430px;
+}
+
+.dashboard-row .dashboard-panel .panel-body {
+    overflow: hidden;
+    clear: both;
+    padding-top: 5px;
+}
+
+.panel-head, #overview-builds-title, #latest-builds-title, .user-panel-title {
+    display: inline;
+    font-weight: lighter;
+    line-height: 2;
+    font-size: 14px;
+    /*padding-left: 10px;*/
+}
+
+.more-builds {
+    display: inline;
+    float: right;
+    padding-right: 5px;
+}
+
+#timerange, #build-update-timerange, .user-panel-timerange {
+    display: inline-block;
+    margin-right: 12px;
+    margin-bottom: 10px;
+    float: right;
+}
+
+.clear-both {
+    clear: both;
+}
+
+.build-status th[data-sort-key="Jenkins Master"],
+.build-status td[data-cell-index="0"] {
+    display:none;
+}
+
+.add-custom-panels-link {
+    color: #65a637;
+    font-size: 12px;
+    margin: auto;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.icon-add {
+    width: calc(25% - 30px);
+    margin: 10px;
+    float: left;
+    border-style: dashed;
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: #65a637;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #fff;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.add_panels_icon svg{
+    x: 0px;
+    y: 0px;
+    width: 16px;
+    height: 16px;
+    display:block;
+    margin:auto;
+}
+
+.add_panels_icon line{
+    fill: none;
+    stroke: rgb(101, 166, 55);
+    stroke-width: 3;
+}
+
+
+.overview-panel-inline {
+    display: inline-block;
+    vertical-align: top;
+}

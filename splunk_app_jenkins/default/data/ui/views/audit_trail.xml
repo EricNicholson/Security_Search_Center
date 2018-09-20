@@ -1,0 +1,91 @@
+<form hideEdit="False" stylesheet="audit_trail.css" script="simplexml_commons.js">
+    <label>Audit Trail</label>
+    <fieldset submitButton="false" autoRun="true">
+        <input type="time" id="time_input">
+            <label>Time</label>
+            <default>
+                <earliest>@d</earliest>
+                <latest>now</latest>
+            </default>
+        </input>
+        <input type="dropdown" token="hostname" searchWhenChanged="true" id="host_input">
+            <label>Jenkins Master</label>
+            <search>
+                <query>|`jenkins_host_list`</query>
+            </search>
+            <fieldForLabel>host</fieldForLabel>
+            <fieldForValue>host</fieldForValue>
+            <selectFirstChoice>true</selectFirstChoice>
+        </input>
+    </fieldset>
+
+    <row>
+        <panel depends="$hostname$" id="audit_log">
+            <input token="audit_text" searchWhenChanged="true" id="audit_text_input">
+                <label>Filter</label>
+                <default>*</default>
+            </input>
+            <table id="audit_table">
+                <title>Audit Logs</title>
+                <search>
+                    <query>index="jenkins_statistics" host="$hostname$" event_tag="audit_trail"
+| rename user as User, message as Message
+| fields User,Message
+| search "$audit_text$"|fieldformat "Time"=strftime('_time', "%c")
+                    </query>
+                </search>
+                <fields>Time, User,Message</fields>
+                <option name="drilldown">none</option>
+                <option name="count">20</option>
+                <option name="refresh.auto.interval">120</option>
+            </table>
+        </panel>
+    </row>
+    <row>
+        <panel depends="$hostname$">
+            <input type="dropdown" token="config_item" searchWhenChanged="true" id="config_item_input">
+                <label>File Item</label>
+                <search>
+                    <query>
+|metadata type=sources index=jenkins_statistics host="$hostname$" |search source="jenkins://*"|eval filename=substr(source, 11)|fields filename,source
+                    </query>
+                </search>
+                <fieldForLabel>filename</fieldForLabel>
+                <fieldForValue>filename</fieldForValue>
+                <default value="*">*</default>
+            </input>
+            <table>
+                <title>Jenkins Config Contents</title>
+                <search>
+                    <query>index="jenkins_statistics" host="$hostname$" source="jenkins://$config_item$"
+| fields username,jenkins_config,source|eval Filename=substr(source,11)
+| rename username as User | eval "Time"=strftime('_time', "%c"), "Content"="View Details" |table Time,Filename,User,Content,jenkins_config
+                    </query>
+                    <progress>
+                        <condition match="'job.resultCount' > 0">
+                            <set token="config_hint_show">true</set>
+                        </condition>
+                        <condition>
+                            <unset token="config_hint_show"/>
+                        </condition>
+                    </progress>
+                </search>
+                 <fields>Time,Filename,User,Content</fields>
+                <drilldown> <!--TODO: show user history for change-->
+                  <condition field="*">
+                    <set token="s_content">$row.jenkins_config$</set>
+                  </condition>
+                </drilldown>
+            </table>
+            <html depends="$config_hint_show$">
+                <p>Click on a row to see config content.</p>
+            </html>
+            </panel>
+            <panel depends="$s_content$">
+                <html>
+                    <a data-unset-token="s_content">Close this panel</a><br/>
+                    <pre>$s_content$</pre>
+                </html>
+            </panel>
+    </row>
+</form>

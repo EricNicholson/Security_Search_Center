@@ -1,0 +1,6 @@
+
+.dashboard-panel .dashboard-form-fieldset .splunk-choice-input,
+.dashboard-panel .dashboard-form-fieldset .splunk-textinput,
+.dashboard-panel .dashboard-form-fieldset .splunk-dropdown {
+    padding: 0;
+}

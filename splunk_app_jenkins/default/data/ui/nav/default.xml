@@ -1,0 +1,11 @@
+<nav color="#337AB7">
+    <view name="overview" default="true"/>
+    <view name="build_analysis" />
+    <view name="test_analysis"/>
+    <view name="jenkins_health"/>
+    <view name="jenkins_slave"/>
+    <view name="audit_trail"/>
+    <view name="alerts"/>
+    <view name="configuration"/>
+    <view name="search"/>
+</nav>

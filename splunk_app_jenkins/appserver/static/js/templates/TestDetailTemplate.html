@@ -1,0 +1,105 @@
+<div id="<%= token%>-tab" class="tab-pane <% if (active){ %>active<% } %>">
+    <h2 class="panel-title">Test Results  <a class="btn clipboard-btn" test-tab-id="<%= token%>">
+        <i class="fa fa-clipboard" aria-hidden="true"></i>
+    </a></h2>
+
+    <div class="panel-description"></div>
+    <div class="test-filter-container">
+        <div class="test-filter" style="width:200px;">
+            <label class="host-filter-label" style="width:200px;">Jenkins Master</label>
+            <div class="host-filter"></div>
+        </div>
+        <div class="test-filter" style="width:250px;">
+            <label class="job-filter-label" style="width:250px;">Job</label>
+            <div class="job-filter"></div>
+        </div>
+        <div class="test-filter" style="width:200px;">
+            <label class="build-filter-label" style="width:200px;">Build</label>
+            <div class="build-filter"></div>
+        </div>
+        <div class="test-filter">
+            <label style="display: inline-block">Test Results Filter</label>
+            <a class="quick-filter-tooltip" style="display: inline-block">
+                <i class="fa fa-question-circle-o" aria-hidden="true"></i>
+            </a>
+            <div class="custom-filter"></div>
+        </div>
+        <div class="test-filter" style="float:right;">
+            <div class="test-timerange"></div>
+        </div>
+
+    </div>
+    <div class="test-filter-container-advanced"  style="display:none;">
+        <div class="advanced-search-filter"></div>
+    </div>
+
+    <div class="filter-mode">
+        <a class="filter-mode-seletor" test-tab-id="<%= token%>">Switch Mode</a>
+    </div>
+
+    <div class="test-panel-inner">
+        <section class="test-panel-content">
+            <div class="horizontal-tabs">
+                <ul class="tabs-menu">
+                    <li class="menu-item active-tab">
+                        <a class="tab-link" tab-name="test-results-tab" test-tab-id="<%= token%>">
+                            <strong>Testcase Results</strong>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="tab-link" tab-name="defects-tab" test-tab-id="<%= token%>">
+                            <strong>Testcase Errors</strong>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="tab-link" tab-name="test-trends-tab" test-tab-id="<%= token%>">
+                            <strong>Test Trends</strong>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tabs-pane test-results-tab-content active-pane">
+                    <div class="dashboard-row">
+                        <div class="dashboard-panel">
+                            <div class="dashboard-cell" style="width:100%;">
+                                <div class="test-results-description" style="display: none">* Expand test case to view testcase history and error details.</div>
+                                <div class="testcase-table"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-pane defects-tab-content">
+                    <div class="dashboard-row">
+                        <div class="dashboard-cell" style="width:100%;">
+                            <div class="dashboard-panel">
+                                <div class="defects-tab-description" style="display: none">* This page shows total occurrences of each error, select an error to view test cases failing due to this error.</div>
+                                <div class="test-defects-table"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-row">
+                        <div class="dashboard-cell" style="width:100%;">
+                            <div class="dashboard-panel">
+                                <div class="tests-defect-title"></div>
+                                <div class="test-defect-detail-table"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-pane test-trends-tab-content">
+                    <div class="test-trends-info"></div>
+                </div>
+            </div>
+        </section>
+        <!-- <div class="test-panel-sidebar">
+        <div class="test-indicator-container">
+
+        <div class="testcase-result-stats-view test-indicator"></div>
+        <div class="testcase-count-view test-indicator"></div>
+        <div class="testcase-duration-view test-indicator"></div>
+
+
+    </div>
+    </div> -->
+    </div>
+
+</div>

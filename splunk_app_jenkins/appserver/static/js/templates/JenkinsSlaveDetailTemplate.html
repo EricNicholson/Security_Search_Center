@@ -1,0 +1,55 @@
+<div id="<%= token%>-tab" class="tab-pane <% if (active){ %>active<% } %>">
+    <h2 class="panel-title"><%= master%>/<%= slave%>
+        <a class="btn clipboard-btn" slave-tab-id="<%= token%>">
+            <i class="fa fa-clipboard" aria-hidden="true"></i>
+        </a>
+    </h2>
+
+    <div class="slave-page-panel">
+        <div class="slave-detail-container">
+
+        </div>
+        <div class="slave-page-panel-inner">
+            <section class="slave-page-panel-item slave-sidebar">
+                <div id="slave-info-sidebar"  class="active">
+                    <h2 id='sidebar-builds'>
+                        <a class="slave-info-tab" tabId="<%= token%>" content="builds">Build History</a>
+                    </h2>
+                    <h2 id='sidebar-connection'>
+                        <a class="slave-info-tab" tabId="<%= token%>" content="connection">Connection History</a>
+                    </h2>
+                    <h2 id='sidebar-log'>
+                        <a class="slave-info-tab" tabId="<%= token%>" content="log">Slave Log</a>
+                    </h2>
+                </div>
+            </section>
+
+            <section class="slave-page-panel-content">
+                <div id="<%= token%>-builds-content" class="panel-content">
+                    <h2 class="slave-content-title">Build History</h2>
+                    <div class="slave-content-description"></div>
+                    <div class="slave-build-history-timerange"></div>
+                    <div class="slave-build-history-chart"></div>
+                    <div class="slave-build-history-table"></div>
+                </div>
+                <div id="<%= token%>-connection-content" class="panel-content">
+                    <h2 class="slave-content-title">Connection History</h2>
+                    <div class="slave-content-description">Click on the heat map cell to view offline reason.</div>
+                    <div class="slave-build-connection-timerange"></div>
+                    <div class="slave-connection-status-panel panel-head">
+                        <i class="fa fa-square fa-1y slave-connection" aria-hidden="true"></i> Jenkins Slave - Connection&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-square fa-1y slave-disconnection" aria-hidden="true"></i> Jenkins Slave - Disconnection&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class="slave-build-connection-map"></div>
+                    <div class="slave-build-connection-table"></div>
+                </div>
+                <div id="<%= token%>-log-content" class="panel-content">
+                    <h2 class="slave-content-title">Slave Log</h2>
+                    <div class="slave-content-description"></div>
+                    <div class="slave-build-log-searchbar"></div>
+                    <div class="slave-build-log-table"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

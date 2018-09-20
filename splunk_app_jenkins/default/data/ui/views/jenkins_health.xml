@@ -1,0 +1,185 @@
+<form hideEdit="True" stylesheet="jenkins_health.css" script="jenkins_health.js, simplexml_commons.js, autodiscover.js">
+    <label>Jenkins Health</label>
+    <fieldset submitButton="false" autoRun="true">
+        <input type="time" id="time_input">
+            <label>Time</label>
+            <default>
+                <earliest>@d</earliest>
+                <latest>now</latest>
+            </default>
+        </input>
+        <input type="dropdown" token="hostname" searchWhenChanged="true" id="host_input">
+            <label>Jenkins Master</label>
+            <search>
+                <query>|`jenkins_host_list`</query>
+            </search>
+            <fieldForLabel>host</fieldForLabel>
+            <fieldForValue>host</fieldForValue>
+            <selectFirstChoice>true</selectFirstChoice>
+        </input>
+    </fieldset>
+    <search id="jenkins_perf_base">
+        <query>index=jenkins_statistics host="$hostname$" event_tag="queue" |bin _time span=2m
+            |fields heap_size_mb,daemon_count,thread_count,total_executors,total_computers,queue_length
+        </query>
+    </search>
+    <row depends="$hostname$">
+        <chart>
+            <title>JVM Heap Memory</title>
+            <search base="jenkins_perf_base">
+                <query>|stats max(heap_size_mb) as "Heap" By _time
+                </query>
+            </search>
+            <option name="charting.chart">line</option>
+            <option name="charting.chart.nullValueMode">connect</option>
+            <option name="charting.axisTitleX.text">Time</option>
+            <option name="charting.axisTitleY.text">Heap Memory(MB)</option>
+            <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+            <option name="refresh.auto.interval">120</option>
+        </chart>
+        <chart>
+            <title>JVM Threads</title>
+            <search base="jenkins_perf_base">
+                <query>stats avg(daemon_count) as Deamon, max(thread_count) as "Thread" by _time</query>
+            </search>
+            <option name="charting.chart">line</option>
+            <option name="charting.chart.nullValueMode">gaps</option>
+            <option name="charting.axisTitleX.text">Time</option>
+            <option name="charting.axisTitleY.text">Threads</option>
+            <option name="refresh.auto.interval">120</option>
+        </chart>
+    </row>
+    <row>
+        <panel depends="$hostname$">
+            <chart>
+                <title>Queue Size</title>
+                <html>
+                    <div class="panel-head ">Jobs waiting in the queue</div>
+                </html>
+                <search base="jenkins_perf_base">
+                    <query>|stats max(queue_length) as "Size" by _time
+                    </query>
+                </search>
+                <option name="charting.chart">line</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.axisTitleX.text">Time</option>
+                <option name="charting.axisTitleY.text">Number</option>
+                <option name="refresh.auto.interval">120</option>
+            </chart>
+        </panel>
+        <panel depends="$hostname$">
+            <chart>
+                <title>Slaves</title>
+                <search base="jenkins_perf_base">
+                    <query>|stats avg(total_executors) as Executor, avg(total_computers) as "Computer" by _time
+                    </query>
+                </search>
+                <option name="charting.chart">line</option>
+                <option name="charting.chart.nullValueMode">connect</option>
+                <option name="charting.axisTitleX.text">Time</option>
+                <option name="charting.axisTitleY.text">Slaves</option>
+                <option name="refresh.auto.interval">120</option>
+            </chart>
+        </panel>
+    </row>
+    <row>
+        <panel depends="$hostname$" id="log_panel">
+            <input type="time" token="log_time">
+                <label>Time</label>
+                <default>
+                    <earliest>-15m@m</earliest>
+                    <latest>now</latest>
+                </default>
+            </input>
+            <input token="log_level" type="dropdown" searchWhenChanged="true" id="log_level_input">
+                <label>LogLevel</label>
+                <choice value="level=*">All</choice>
+                <choice value="level=INFO">Information</choice>
+                <choice value="level=WARNING">Warning</choice>
+                <choice value="level=SEVERE">Error</choice>
+                <choice value="level=SEVERE OR level=WARNING">Warning or Error</choice>
+                <default>All</default>
+            </input>
+            <input token="log_text_content" searchWhenChanged="true" id="log_text_input">
+                <label>Log Filter</label>
+                <default>*</default>
+            </input>
+            <table>
+                <title>Jenkins Log</title>
+                <search>
+                    <query>`jenkins_log_filter_level($hostname$,"$log_level$",$log_text_content$)`
+                        |rtorder max_buffer_size=100|reverse| fields _time,LogLevel,Message, Exception
+                        |fieldformat "Time"=strftime('_time', "%c")
+                    </query>
+                    <earliest>$log_time.earliest$</earliest>
+                    <latest>$log_time.latest$</latest>
+                    <progress>
+                        <condition match="'job.resultCount' > 0">
+                            <set token="log_hint_show">true</set>
+                        </condition>
+                        <condition>
+                            <unset token="log_hint_show"/>
+                        </condition>
+                    </progress>
+                </search>
+                <fields>Time,LogLevel,Message</fields>
+                <option name="count">100</option>
+                <drilldown>
+                    <condition match="isNotNull($row.Exception$)">
+                        <set token="log_trace">$row.Exception$</set>
+                    </condition>
+                    <condition match="isNull($row.Exception$) ">
+                        <set token="log_trace">Stacktrace not available</set>
+                    </condition>
+                </drilldown>
+            </table>
+            <html depends="$log_hint_show$">
+                <p>Click on a row to see stacktrace.</p>
+            </html>
+        </panel>
+    </row>
+    <row>
+        <panel depends="$log_trace$">
+            <html>
+                <span>Stacktrace</span>
+                <pre>$log_trace$</pre>
+                <a data-unset-token="log_trace">Close this panel</a>
+            </html>
+        </panel>
+    </row>
+    <row>
+        <html>
+            <div id="masterSlaveSearch"
+                 class="splunk-manager"
+                 data-require="splunkjs/mvc/searchmanager"
+                 data-options='{
+                    "search": "index=jenkins_statistics event_tag=slave | dedup host node_name | search status=updated   num_executors>0 | fields host node_name num_executors is_idle is_online",
+                    "earliest_time": "@d",
+                    "latest_time": "now",
+                    "preview": true,
+                    "cache": false
+                 }'>
+            </div>
+
+            <h3>Master/Slave Topology</h3>
+            <div class="panel-head">
+                <i class="fa fa-circle" aria-hidden="true" style="color:rgb(16,119,173);"></i> Jenkins Master
+                <i class="fa fa-circle" aria-hidden="true" style="color:rgb(128,128,128);"></i> Jenkins Slave - Idle
+                <i class="fa fa-circle" aria-hidden="true" style="color:rgb(162,204,62);"></i> Jenkins Slave - Busy
+                <i class="fa fa-circle" aria-hidden="true" style="color:rgb(214,86,60);"></i> Jenkins Slave - Offline
+                <div id="display-hover-name" style="float:right; margin-right: 20px;">
+                    <span id="slave-name"></span>
+                </div>
+            </div>
+
+            <div id="masterSlaveChart"
+                 class="splunk-view"
+                 data-require="app/views/Component/JenkinsCirclePackingView"
+                 data-options='{
+                    "managerid": "masterSlaveSearch",
+                    "height": 600
+                 }'>
+            </div>
+        </html>
+    </row>
+</form>
