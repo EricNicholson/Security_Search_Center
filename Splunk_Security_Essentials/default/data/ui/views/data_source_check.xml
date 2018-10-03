@@ -1,0 +1,12 @@
+<form script="components/data/generateDiag.js,data_source_check.js">
+  <label>Data Source Check</label>
+  <fieldset>
+  </fieldset>
+  <row>
+    <panel>
+      <html>
+        <div id="main_content"/>
+      </html>
+    </panel>
+  </row>
+</form>

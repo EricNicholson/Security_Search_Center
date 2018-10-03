@@ -1,0 +1,126 @@
+<dashboard stylesheet="style/app.css,bookmarked_content.css" script="bookmarked_content.js">
+  <label>Bookmarked Content</label>
+  <search id="analytics">
+    <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") | search bookmark_status!=none</query>
+    <earliest>-24h@h</earliest>
+    <latest>now</latest>
+    <sampleRatio>1</sampleRatio>
+  </search>
+  
+  <row>
+  <panel>
+  <html id="bookmarkrow" >
+        <h1 class="printonly">Use Case Overview</h1>
+        <div id="bookmarkNavContainer" style="text-align: center">
+          
+          
+            <div class="floatleft" id="clearbookmarkLink"><a href="#">Clear Bookmarks</a></div>
+            <div class="floatright" id="addCustomLink"><a href="#">Add Custom Entry</a></div>
+            <div  id="restorebookmarkLink"><a href="#">Restore Bookmark Lists</a></div>
+            
+            
+          </div>
+  
+  </html>
+  </panel>
+  </row>
+  <row>
+    <panel id="bookmarked">
+      <title>Bookmarked</title>
+      <single>
+        <search base="analytics">
+          <query>| stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel id="needData">
+      <title>Waiting on Data</title>
+      <single>
+        <search base="analytics">
+          <query>| search bookmark_status=needData | stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel id="inQueue">
+      <title>Ready For Deployment</title>
+      <single>
+        <search base="analytics">
+          <query>| search bookmark_status=inQueue | stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel id="issuesDeploying">
+      <title>Implementation Issues</title>
+      <single>
+        <search base="analytics">
+          <query>| search bookmark_status=issuesDeploying | stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel id="needsTuning">
+      <title>Needs Tuning</title>
+      <single>
+        <search base="analytics">
+          <query>| search bookmark_status=needTuning | stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel id="successfullyImplemented">
+      <title>Fully Implemented</title>
+      <single>
+        <search base="analytics">
+          <query>| search bookmark_status=successfullyImplemented | stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel id="customSearches">
+      <title>Custom</title>
+      <single>
+        <search>
+          <query>| stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel id="dataSourcePanel">
+      <html id="dataSourceHTML">
+        </html>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$hidden$">
+      <table>
+        <search base="analytics">
+          <query>| table name wishli* | eval "Awaiting Data"=if(bookmark_status="needData", "Yes", ""), "Ready for Deployment"=if(bookmark_status="inQueue", "Yes", ""), "Implementation Issues"=if(bookmark_status="issuesDeploying", "Yes", ""), "Need Tuning"=if(bookmark_status="needTuning", "Yes", ""), "Successfully Implemented"=if(bookmark_status="successfullyImplemented", "Yes", "") | eval sortOrder = case(bookmark_status="needData", 1, bookmark_status="inQueue", 2, bookmark_status="issuesDeploying", 3,bookmark_status="needTuning",4,bookmark_status="successfullyImplemented",5) | sort sortOrder name | fields name bookmark_user Awa* Read* Impl* Need* Succ*| rename name as Name bookmark_user as "User (Last Changed)"</query>
+        </search>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+  <panel>
+  <html>
+
+  <div id="bookmark_table">
+  </div>
+  </html>
+  </panel>
+  </row>
+  <row>
+  <panel>
+  <html>
+
+  <div id="bookmark_printable_table">
+  </div>
+  </html>
+  </panel>
+  </row>
+</dashboard>

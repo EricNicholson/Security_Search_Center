@@ -1,0 +1,24 @@
+<dashboard script="runPageScript.js">
+  <label>Introduction</label>
+  
+  <row>
+    <panel>
+      
+      <html>
+        <h2>Introduction</h2>
+      <p>Welcome to the Splunk Security Essentials app! In this app, we have provided <b id="analyticCount">428</b> different examples of how Splunk’s analytics-driven security can be used throughout your security journey. To help you along the way, each example is documented so you can understand how it works, how to use it, and the level of difficulty. We’ve even provided data onboarding guides for some of the top data sources that feed these examples!</p>
+<p>What’s an example, you ask? An example is a fully-usable piece of security content using Splunk’s detection abilities to assist you in securing your environment or hunting for potential evil. They can be used stand-alone or in conjunction with others, and in Splunk Enterprise (core) or with ES and UBA. We also map into the six stages that represent the Splunk Security Journey.</p>
+<p>Each example includes sample data so that you can see what it does, after which you are encouraged to turn it loose on your own data! To help you better match the example to your environment, we have prerequisite checks and thorough documentation. The examples are also mapped to common frameworks like MITRE ATT&amp;CK and a generic kill chain. You can save searches directly from this app to create Notable Events in ES, External Alarms in UBA, or simply kick off an alert action in Splunk Enterprise.</p>
+<p>We recommend that to start you determine which of the six stages best represents where your organization is leveled today with Splunk. Next, you can click Security Content and explore the examples associated with that stage in the journey. The filters allow you to hone in on exactly the use cases, areas, and data sources that are applicable. And in case you forget, each page has a tour in the upper right that will walk you through all of the functionality!</p>
+    </html>
+  </panel>
+</row>
+  <row>
+    <panel>
+      <html>
+        <div id="ListOfUseCases"></div>
+      </html>
+    </panel>
+  </row>
+  
+</dashboard>

@@ -1,0 +1,386 @@
+<form>
+  <label>Overview</label>
+  <fieldset submitButton="false"></fieldset>
+  <search>
+    <query>| rest splunk_server=local /services/apps/local | search disabled=0 title=*sankey*</query>
+    <done>
+      <condition match="'job.resultCount' == 0">
+        <set token="nosankey">nosankey</set>
+        <unset token="sankey">sankey</unset>
+      </condition>
+      <condition match="'job.resultCount' > 0">
+        <unset token="nosankey">nosankey</unset>
+        <set token="sankey">sankey</set>
+      </condition>
+    </done>
+  </search>
+  <row>
+    <panel>
+      <input type="multiselect" token="usecase" searchWhenChanged="true">
+        <label>Use Case</label>
+        <prefix>(</prefix>
+        <suffix>)</suffix>
+        <valuePrefix>usecase="</valuePrefix>
+        <valueSuffix>"</valueSuffix>
+        <delimiter> OR </delimiter>
+        <fieldForLabel>usecase</fieldForLabel>
+        <fieldForValue>usecase</fieldForValue>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") | foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| search includeSSE = "yes"
+| stats count by usecase | fields - count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <choice value="*">ALL</choice>
+        <default>*</default>
+      </input>
+      <input type="multiselect" token="category" searchWhenChanged="true">
+        <label>Category</label>
+        <prefix>(</prefix>
+        <suffix>)</suffix>
+        <valuePrefix>category="</valuePrefix>
+        <valueSuffix>"</valueSuffix>
+        <delimiter> OR </delimiter>
+        <fieldForLabel>category</fieldForLabel>
+        <fieldForValue>category</fieldForValue>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$
+| stats count by category | fields - count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <choice value="*">ALL</choice>
+        <default>*</default>
+      </input>
+      <input type="radio" token="bookmark">
+        <label>Just Bookmarked?</label>
+        <choice value="*">All Examples</choice>
+        <choice value="bookmark_status!=none">Only Bookmarked</choice>
+        <default>*</default>
+      </input>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Splunk Security Essentials Content (for filters set above)</title>
+      <single>
+        <title># of Datasources</title>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| stats dc(datasource) AS "# of Datasources"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="rangeColors">["0xcd7f32","0xcacbce","0x9c9c9c","0xe5d08f","0xd93f3c"]</option>
+        <option name="rangeValues">[1,5,10,50]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+      <single>
+        <title># of Examples</title>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| eval pipefields = null 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| stats count(name) AS number_of_analytics</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0xcd7f32","0xcacbce","0x9c9c9c","0xe5d08f","0xd93f3c"]</option>
+        <option name="rangeValues">[10,30,100,500]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Top MITRE ATT&amp;CK Tactics</title>
+      <chart>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| stats count by mitre
+| search mitre!="None"
+| sort + count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Top Kill Chain Phases</title>
+      <chart>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| stats count by killchain
+| search killchain!="None"
+| sort + count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Use Cases by Journey Stage</title>
+      <chart>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume highlight bookmark_status
+| search highlight=Yes
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| chart count over journey by usecase
+| eval sort_field=case(usecase=="Other",1, 1=1,0)
+| sort sort_field usecase
+| fields - sort_field _time
+| eval journey = replace(journey, "_", " ")</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisEnd</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$sankey$">
+      <title>Use Case(s) &gt; Data Source</title>
+      <viz type="sankey_diagram_app.sankey_diagram">
+        <title>(Requires Sankey Viz)</title>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| stats count by usecase datasource
+| sort usecase, datasource</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </viz>
+    </panel>
+    <panel depends="$nosankey$"><title>Use Case(s) &gt; Data Source</title><html><a target="_blank" href="https://splunkbase.splunk.com/app/3112/"><img src="/static/app/Splunk_Security_Essentials/images/general_images/sankey_needed1.png" /></a></html></panel>
+    <panel depends="$sankey$">
+      <title>Data Source &gt; Splunk App</title>
+      <viz type="sankey_diagram_app.sankey_diagram">
+        <title>(Requires Sankey Viz)</title>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| stats count by datasource, displayapp
+| sort , displayapp datasource</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </viz>
+    </panel>
+    <panel depends="$nosankey$"><title>Data Source &gt; Splunk App</title><html><a target="_blank" href="https://splunkbase.splunk.com/app/3112/"><img src="/static/app/Splunk_Security_Essentials/images/general_images/sankey_needed2.png" /></a></html></panel>
+    <panel>
+      <title>Journey by Splunk Product</title>
+      <chart>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| chart count over displayapp by journey
+| append [ | makeresults | eval displayapp="-"]
+| eval sort_field=case(displayapp=="-",1, displayapp=="Splunk User Behavior Analytics",2, displayapp=="Splunk App for Enterprise Security",3, displayapp=="Splunk Security Essentials for Ransomware",4, displayapp=="Enterprise Security Content Update",5)
+| sort sort_field
+| fields - sort_field _time
+| search displayapp!="-" | rename Stage_* as "Stage *"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">-45</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="height">666</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Journey Coverage by Use Case</title>
+      <table>
+        <search>
+          <query>| sseanalytics   | eval hasSearch=spath(summaries, "hasSearch") | eval includeSSE=spath(summaries, "includeSSE") | eval datasource=spath(summaries, "datasource") | eval displayapp=spath(summaries, "displayapp") | eval app=spath(summaries, "app") | eval journey=spath(summaries, "journey") | eval category=spath(summaries, "category") | eval domain=spath(summaries, "domain") | eval name=spath(summaries, "name") | eval icon=spath(summaries, "icon") | eval description=spath(summaries, "description") | eval dashboard=spath(summaries, "dashboard") | eval mitre=spath(summaries, "mitre") | eval killchain=spath(summaries, "killchain") | eval alertvolume=spath(summaries, "alertvolume") | eval highlight=spath(summaries, "highlight") | eval SPLEase=spath(summaries, "SPLEase")| eval includeSSE=spath(summaries, "includeSSE") | eval bookmark_status=spath(summaries, "bookmark_status")| eval bookmark_user=spath(summaries, "bookmark_user")  | eval usecase=spath(summaries, "usecase") | eval released=spath(summaries, "released") 
+| foreach category datasourc* killchain mitre usecase 
+    [| makemv &lt;&lt;FIELD&gt;&gt; delim="|" ] 
+| table name usecase hasSearch includeSSE datasource displayapp app journey category domain icon description dashboard mitre killchain alertvolume bookmark_status
+| search includeSSE = "yes" $usecase$ $category$ $bookmark$
+| chart count over journey by usecase | rename journey as Journey | eval Journey = replace(Journey, "_", " ") | fields Journey Security* Advance* Insider* Compli* Applic* *</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="dataOverlayMode">heatmap</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

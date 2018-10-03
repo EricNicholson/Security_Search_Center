@@ -1,0 +1,781 @@
+{
+    "DS005WebProxyRequest": {
+        "name": "Web Proxy Data",
+        "description": "User web requests",
+        "eventtypes": {
+            "DS005WebProxyRequest-ET01Requested":{
+                "name": "Standard Proxy Requests",
+                "description": "User web requests",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "tag=web tag=proxy",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    },
+                    "pan": {
+                        "name": "Palo Alto Networks",
+                        "basesearch": "index=pan_logs sourcetype=pan:traffic",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    },
+                    "checkpoint": {
+                        "name": "Check Point",
+                        "basesearch": "index=netproxy sourcetype=opsec product=URL*",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS005WebProxyRequest-ET01RequestedWebAppAware":{
+                "name": "Proxy Requests with App Detection",
+                "description": "User web requests going through a proxy that will detect apps (frequently from a next gen firewall)",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "tag=web tag=proxy app=*",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    },
+                    "pan": {
+                        "name": "Palo Alto Networks",
+                        "basesearch": "index=pan_logs sourcetype=pan:traffic app=*",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    },
+                    "checkpoint": {
+                        "name": "Check Point",
+                        "basesearch": "index=netproxy sourcetype=opsec product=App*",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            } 
+        }
+    },
+    "DS002DNS": {
+        "name": "DNS Data",
+        "description": "Logs of DNS Communication",
+        "eventtypes": {
+            "DS002DNS-ET01Query": {
+                "name": "DNS Queries",
+                "description": "Just the records queried via DNS",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS002DNS-ET01QueryRequest": {
+                "name": "DNS Queries w/ Requests",
+                "description": "Additional Details detailing exactly what was queried",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS002DNS-ET01QueryResponse": {
+                "name": "DNS Queries w/ Response",
+                "description": "Log messages showing both the queries and responses in the same message",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    },
+                    "streamdns": {
+                        "name": "Stream:DNS",
+                        "basesearch": "index=netdns sourcetype=stream:dns query=* src_ip=*",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS003Authentication": {
+        "name": "Authentication Data",
+        "description": "Any indications that users are accessing resources, and what they're resources.",
+        "eventtypes": {
+            "DS003Authentication-ET01Success": {
+                "name": "Successful Authentication",
+                "description": "Successful Authentication Events",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "tag=auth action=success",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS003Authentication-ET02Failure": {
+                "name": "Failed Authentication",
+                "description": "Any type of logon failure",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "tag=auth action=success",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS003Authentication-ET02FailureBadFactor": {
+                "name": "Authentication with Failed Two Factor",
+                "description": "This will occur when there is a successful authentication but the two factor authentication fails",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS003Authentication-ET02FailureError": {
+                "name": "Authentication with an Unknown Failure",
+                "description": "Failures in the actual authentication system, rather than incorrect credentials",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS003Authentication-ET02FailureUnknownAccount": {
+                "name": "Authentication Against Unknown Accounts",
+                "description": "Authentication attempts for accounts that don't exist.",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS004EndPointAntiMalware": {
+        "name": "Anti-Malware Data",
+        "description": "Logs from an anti-malware system",
+        "eventtypes": {
+            "DS004EndPointAntiMalware-ET01SigDetected": {
+                "name": "Malware Detected",
+                "description": "Malware was detected",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS004EndPointAntiMalware-ET02UpdatedSig": {
+                "name": "Anti-Malware Signatures Updated",
+                "description": "Signatures were updated by the Anti-Malware Software",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS004EndPointAntiMalware-ET03UpdatedEng": {
+                "name": "Anti-Malware Engine Updated",
+                "description": "Detection Engine was updated by the Anti-Malware Software",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS006UserActivity": {
+        "name": "Generic User Activity Data",
+        "description": "A generic data type used for any type of audit activity",
+        "eventtypes": {
+            "DS006UserActivity-ET01List": {
+                "name": "List Events",
+                "description": "User listed data",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS006UserActivity-ET02Read": {
+                "name": "Read Events",
+                "description": "User Read Activity",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS006UserActivity-ET03Create": {
+                "name": "Create Events",
+                "description": "User Creation Activity",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS006UserActivity-ET04Update": {
+                "name": "Update Events",
+                "description": "User updated data",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS006UserActivity-ET05Delete": {
+                "name": "Delete Events",
+                "description": "User Deletion Activity",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS006UserActivity-ET06Search": {
+                "name": "Search Events",
+                "description": "User Search Activity",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS006UserActivity-ET07ExecuteAs": {
+                "name": "Execution As Events",
+                "description": "Activity where User Is Executing as Another User",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS007AuditTrail": {
+        "name": "Generic Audit Log Data",
+        "description": "A generic data type used for any type of audit activity",
+        "eventtypes": {
+            "DS007AuditTrail-ET01Clear": {
+                "name": "Clearing Audit Log",
+                "description": "User clears the audit log",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS007AuditTrail-ET02Alter": {
+                "name": "Altering Audit Log",
+                "description": "User alters the audit log",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS007AuditTrail-ET03TimeSync": {
+                "name": "Time Sync Events",
+                "description": "Indications of altering the timestamp of a system to fool event logging",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS008IdentityAndAccount": {
+        "name": "HR Data",
+        "description": "Data about the users in an environment that comes from HR Systems",
+        "eventtypes": {
+            "DS008HRMasterData-ET01Joined": {
+                "name": "Joined Users",
+                "description": "New Employees / Contractors Added",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS008HRMasterData-ET02SeparationNotice": {
+                "name": "Separation Notice Given",
+                "description": "Initial notice of separation events (terminations, employees resigning, etc.)",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS008HRMasterData-ET03SeperationImmediate": {
+                "name": "Immediate Separate Events",
+                "description": "Immediate separation events (e.g., termination and escorted out, user resigning effective immediately)",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS009EndPointIntel": {
+        "name": "EDR Data",
+        "description": "Endpoint Detection and Response Data",
+        "eventtypes": {
+            "DS009EndPointIntel-ET01ObjectChange": {
+                "name": "Object Change",
+                "description": "Object was changed (created, modified, deleted)",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS009EndPointIntel-ET01ProcessLaunch": {
+                "name": "Process Launch",
+                "description": "Process launched",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS010NetworkCommunication": {
+        "name": "Network Communication Data",
+        "description": "Data from Firewalls, Netflow, Etc",
+        "eventtypes": {
+            "DS010NetworkCommunication-ET01Traffic": {
+                "name": "Basic Traffic Logs",
+                "description": "Standard four-touple logs (src ip, dest ip, src port, dest port)",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS010NetworkCommunication-ET01TrafficAppAware": {
+                "name": "App Aware Traffic Logs",
+                "description": "Traffic logs coming from an app aware firewall, Splunk Stream (7.0+), etc.",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS010NetworkCommunication-ET02State": {
+                "name": "State Logs",
+                "description": "...",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS011MalwareDetonation": {
+        "name": "Malware Detonation Data",
+        "description": "Data from malware detonation tools (such as FireEye, LastLine, etc.) that detonate malware in a VM ",
+        "eventtypes": {
+            "DS011MalwareDetonation-ET01Detection": {
+                "name": "Malware Detected",
+                "description": "Malware detected via detonation",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS012NetworkIntrusionDetection": {
+        "name": "Network IDS Data",
+        "description": "Data from a network-based intrusion detection system.",
+        "eventtypes": {
+            "DS012NetworkIntrusionDetection-ET01SigDetection": {
+                "name": "IDS Hit Detected",
+                "description": "IDS hit detected from a network source",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS013TicketManagement": {
+        "name": "Ticket Management Data",
+        "description": "Status from a ticketing system such as Splunk ES, ServiceNow, Archer, etc",
+        "eventtypes": {
+            "DS013TicketManagement-ET01": {
+                "name": "Ticket status",
+                "description": "Ticket status",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS014WebServer": {
+        "name": "Web Server Data",
+        "description": "Data from a web server",
+        "eventtypes": {
+            "DS014WebServer-ET01Access": {
+                "name": "Web server access logs",
+                "description": "Logs from Apache, IIS, Nginx, etc.",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS015ConfigurationManagement": {
+        "name": "Configuration Management Data",
+        "description": "Data from a host config management system, such as puppet, SCCM, etc.",
+        "eventtypes": {
+            "DS015ConfigurationManagement-ET01General": {
+                "name": "General Config Management Logs",
+                "description": "Standard configuration management logs",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS016DataLossPrevention": {
+        "name": "DLP Data",
+        "description": "Events from a data loss prevention system",
+        "eventtypes": {
+            "DS016DataLossPrevention-ET01Violation": {
+                "name": "DLP Violations",
+                "description": "Alerts on suspicious or blocked operations from a DLP System",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS017PhysicalSecurity": {
+        "name": "Physical Security Data",
+        "description": "Events from a physical security (typically badge reader) system",
+        "eventtypes": {
+            "DS017PhysicalSecurity-ET01Access": {
+                "name": "Access logs",
+                "description": "Physical security access logs",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS018VulnerabilityDetection": {
+        "name": "Vuln Mgmt Data",
+        "description": "Data from a vulnerability management system",
+        "eventtypes": {
+            "DS018VulnerabilityDetection-ET01SigDetected": {
+                "name": "Vuln Detected",
+                "description": "Detected vulnerability in a system",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS019PatchManagement": {
+        "name": "Patch Mgmt Data",
+        "description": "Data from a host patch management system",
+        "eventtypes": {
+            "DS019PatchManagement-Applied": {
+                "name": "Patch Applied",
+                "description": "Detected a patch being applied to a system",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS019PatchManagement-Eligible": {
+                "name": "System eligible for patch",
+                "description": "Detected that a patch could be applied to a system",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            },
+            "DS019PatchManagement-Failed": {
+                "name": "Patch Failed",
+                "description": "Detected a failed patch installation",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS020HostIntrustionDetection": {
+        "name": "HIDS Data",
+        "description": "Data from a host-based intrusion detection system",
+        "eventtypes": {
+            "DS020HostIntrustionDetection-ET01SigDetected": {
+                "name": "HIDS Event Detected",
+                "description": "Detected an attack or suspicious event via a HIDS",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS021Telephony": {
+        "name": "Telephony Data",
+        "description": "Data from a telephony system",
+        "eventtypes": {
+            "DS021Telephony-ET01CDR": {
+                "name": "CDR Log",
+                "description": "Standard Call Detail Record logs",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS022Performance": {
+        "name": "Performance Data",
+        "description": "Data tracking the performance of a system",
+        "eventtypes": {
+            "DS022Performance-ET01General": {
+                "name": "Performance Data",
+                "description": "Standard performance data",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS023CrashReporting": {
+        "name": "Crash Reporting Data",
+        "description": "Crash logs",
+        "eventtypes": {
+            "DS023CrashReporting-ET01General": {
+                "name": "Crash Report",
+                "description": "Crash Report data",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    },
+    "DS024ApplicationServer": {
+        "name": "App Server Data",
+        "description": "Data from an application server",
+        "eventtypes": {
+            "DS024ApplicationServer-ET01General": {
+                "name": "App Server Logs",
+                "description": "Generic app server logs",
+                "readyForUse": false,
+                "products": {
+                    "cim": {
+                        "name": "Common Information Model",
+                        "basesearch": "index=placeholder",
+                        "validation": "earliest=-4h | head 100 | stats count",
+                        "errordescription": "..."
+                    }
+                }
+            }
+        }
+    }
+}

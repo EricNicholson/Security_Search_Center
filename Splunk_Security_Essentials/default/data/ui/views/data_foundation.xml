@@ -1,0 +1,23 @@
+<dashboard script="runPageScript.js">
+  <label>Data Foundation</label>
+  
+  <row>
+    <panel>
+      
+      <html>
+      <div id="startSearchesDiv"><button type="button" id="startSearchesButton" class="btn btn-primary"><i class="icon-play" /> Start Searches</button></div>
+        <h2>Data Foundation</h2>
+      <p>What is a data foundation, you ask? Well, this is the basis of what data sources you have in your environment.</p>
+      
+    </html>
+  </panel>
+</row>
+  <row>
+    <panel>
+      <html>
+        <div id="foundation_container"></div>
+      </html>
+    </panel>
+  </row>
+  
+</dashboard>

@@ -1,0 +1,37 @@
+.UseCase {
+    display: inline-block;
+    width: 480px;
+    height: 225px;
+    border: solid gray 1px;
+    /*margin: 15px;*/
+    overflow: hidden;
+    clear: both;
+    position: relative;
+}
+
+.UseCase h2 {
+    line-height: 20px;
+}
+
+.UseCaseImg {
+    width: 150px;
+    height: 150px;
+    top: 0px;
+    position: absolute;
+    float: left;
+    vertical-align: top;
+    margin-top: 15px;
+    margin-right: 10px;
+    line-height: 150px;
+    text-align: center;
+}
+
+.UseCaseDescription {
+    /*display: block;*/
+    position: absolute;
+    left: 145px;
+    top: 0;
+    width: 320px;
+    height: 225px;
+    overflow: hidden;
+}

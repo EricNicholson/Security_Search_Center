@@ -1,0 +1,1585 @@
+@import 'srcviewer.css';
+@import 'prettify.css';
+
+/* Messages.coffee */
+
+.textinput-with-message input[type="text"] {
+    margin-bottom: 5px;
+}
+
+.textinput-with-message .textinput-message {
+    color: gray;
+    font-size: 11px;
+}
+
+
+/* Modal */
+
+.mlts-modal {
+    display: none;
+}
+
+.mlts-modal-no-padding {
+    width: 80%;
+    left: 10%;
+    margin: auto;
+}
+
+#modalAdjustFilters .modal-body {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    overflow: auto;
+}
+
+#modalAdjustFilters>li::-webkit-scrollbar {
+    display: none;
+}
+
+.mlts-modal-no-padding .modal-body {
+    padding: 0;
+}
+
+.mlts-modal-form-inline>* {
+    display: inline-block;
+}
+
+.mlts-modal-form-inline>*:not(:first-child) {
+    margin-left: 5px;
+}
+
+.mlts-modal-form-inline>p {
+    vertical-align: middle;
+}
+
+.mlts-modal-form-inline>.splunk-textinput input[type="text"] {
+    width: 75px;
+}
+
+
+/* forces the alert to be displayed on its own line even when modal-form-inline is present */
+
+.mlts-modal .mlts-modal-alert {
+    display: block;
+}
+
+
+/* ScheduledSearchModal */
+
+.components-splunk-scheduledsearchmodal-save .mlts-time-label-icon {
+    padding-left: 5px;
+}
+
+
+/* Dashboard Panels */
+
+.mlts-panel-footer {
+    text-align: center;
+}
+
+.mlts-panel-footer .btn:not(:first-child) {
+    margin-left: 5px;
+}
+
+
+/* slider */
+
+.ui-slider {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+
+/* SourceViewer */
+
+.source-viewer-wrapper {
+    display: none;
+}
+
+
+/* stats-panel */
+
+.stats-panel {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.stats-panel>div {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.stats-panel div {
+    position: relative;
+}
+
+
+/* Tabs */
+
+.dashboard-tabs {
+    margin-left: 15px;
+    border-right: 1px solid #ddd;
+}
+
+.dashboard-tab-content {
+    background: white;
+    border-style: solid;
+    border-color: #ddd;
+    border-width: 0 1px 1px 1px;
+    padding: 10px;
+    overflow: inherit;
+    /* prevents issues with Splunk's search mode dropdown causing the entire tab to scroll */
+}
+
+
+/* EnhancedMultiDropDownView */
+
+.enhanced-multidropdown-view-controls {
+    border-top: 1px solid #bfbfbf;
+    padding: 5px;
+}
+
+.enhanced-multidropdown-view-controls button {
+    margin-right: 5px;
+}
+
+
+/* QueryHistoryTable */
+
+.dashboard-history-controls button:not(:last-child) {
+    margin-right: 5px;
+}
+
+.dashboard-history-table tbody tr td.highlighted,
+.dashboard-history-table tbody tr.highlighted>td.highlighted,
+.dashboard-history-table tr div.multivalue-subcell.highlighted {
+    background-color: white !important;
+    cursor: default;
+}
+
+.dashboard-history-table tbody tr.even td.highlighted,
+.dashboard-history-table tbody tr.even.highlighted>td.highlighted,
+.dashboard-history-table tr.even div.multivalue-subcell.highlighted {
+    background-color: #f5f5f5 !important;
+    cursor: default;
+}
+
+.dashboard-history-table .table-drilldown>tbody>tr>td,
+.dashboard-history-table .table-drilldown-cell>tbody>tr>td:hover .multivalue-subcell {
+    color: black !important;
+}
+
+
+/* style fixes for SearchControlsView */
+
+.app-search-controls-wrapper .shared-jobstatus {
+    padding: 0 0 0 0;
+}
+
+.app-search-controls-wrapper .progress-bar {
+    top: 23px;
+}
+
+
+/* generic styles for text/dropdown inputs */
+
+.fieldset div.input-multiselect {
+    width: 400px;
+}
+
+.fieldset input[type="range"] {
+    height: 26px;
+}
+
+.fieldset .ui-slider {
+    margin-top: 12px;
+}
+
+.app-error-messages {
+    clear: both;
+    padding-top: 0;
+    display: none;
+}
+
+
+/* hide the "Edit" and "More Info" dropdowns. Not using the hideEdit="true" option because that hides the "Print" button too */
+
+.dashboard-view-controls a.more-info-btn {
+    display: none;
+}
+
+.dashboard-view-controls a.edit-btn {
+    display: none;
+}
+
+
+/* hide pdf button and fix styling for print button */
+
+.dashboard-view-controls a.generate-pdf {
+    display: none;
+}
+
+.dashboard-view-controls a.print-dashboard {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+
+/* dependency checker error wrapper */
+
+.dependency-checker-wrapper {
+    padding: 10px;
+}
+
+.dependency-checker-error {
+    text-align: center;
+}
+
+.dependency-checker-info {
+    width: 700px;
+    margin: auto;
+    font-size: 14px;
+}
+
+
+/* Assistant controls footer */
+
+.mlts-assistant-controls-footer {
+    padding-top: 10px;
+}
+
+.mlts-assistant-controls-footer .form-submit {
+    padding-top: 0 !important;
+}
+
+.mlts-assistant-controls-footer>*:not(:last-child) {
+    margin-right: 5px;
+}
+
+
+/* Dashboard error display */
+
+#errorDisplay {
+    margin-top: 10px;
+}
+
+#errorDisplay .alert {
+    margin-bottom: 0;
+}
+
+
+/* errors on form inputs */
+
+.splunk-textinput.error input[type="text"] {
+    border-color: #d6563c;
+}
+
+.splunk-multidropdown.error ul.select2-choices {
+    border-color: #d6563c;
+}
+
+
+/* SearchStringDisplay */
+
+.mlts-search-string-display-table td {
+    width: 50%;
+}
+
+.mlts-search-string-display-table td.mlts-no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+@-moz-document url-prefix() {
+    .splunk-choice-input .splunk-choice-input-message {
+        margin-top: 0px;
+    }
+}
+
+
+/* additional styles used by AlertModal, copied from Splunk */
+
+.alert-save-as .trigger-actions .trigger-actions-controls,
+.alert-edit .trigger-actions .trigger-actions-controls {
+    position: relative;
+}
+
+.alert-save-as .trigger-actions .trigger-actions-control-heading,
+.alert-edit .trigger-actions .trigger-actions-control-heading {
+    padding-top: 5px;
+    text-align: right;
+    width: 160px;
+    font-weight: bold;
+}
+
+.alert-save-as .trigger-actions .trigger-actions-control-label,
+.alert-edit .trigger-actions .trigger-actions-control-label {
+    float: left;
+    width: 160px;
+    padding-top: 5px;
+    text-align: right;
+}
+
+.alert-save-as .trigger-actions .trigger-actions-controls,
+.alert-edit .trigger-actions .trigger-actions-controls {
+    *display: inline-block;
+    *padding-left: 20px;
+    margin-left: 180px;
+    *margin-left: 0;
+}
+
+.alert-save-as .modal-body-scrolling,
+.alert-edit .modal-body-scrolling {
+    padding-bottom: 0px;
+}
+
+.alert-save-as .earliest-timepicker,
+.alert-edit .earliest-timepicker,
+.alert-save-as .latest-timepicker,
+.alert-edit .latest-timepicker {
+    position: relative;
+}
+
+.alert-save-as .earliest-timepicker input,
+.alert-edit .earliest-timepicker input,
+.alert-save-as .latest-timepicker input,
+.alert-edit .latest-timepicker input {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    min-height: 26px;
+}
+
+.alert-save-as .help-block-timestamp,
+.alert-edit .help-block-timestamp {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto;
+    margin: auto !important;
+}
+
+.alert-save-as .controls .schedule_hourly .btn,
+.alert-edit .controls .schedule_hourly .btn {
+    width: 50px;
+}
+
+.alert-save-as .controls .pre_label,
+.alert-edit .controls .pre_label {
+    margin-right: 20px;
+}
+
+.alert-save-as .controls .hour_post_label,
+.alert-edit .controls .hour_post_label {
+    margin-left: 20px;
+}
+
+.alert-save-as .controls .weekly_pre_label,
+.alert-edit .controls .weekly_pre_label {
+    margin-right: 10px;
+}
+
+.alert-save-as .controls .daily_pre_label,
+.alert-edit .controls .daily_pre_label {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.alert-save-as .controls .monthly_pre_label,
+.alert-edit .controls .monthly_pre_label {
+    margin-right: 10px;
+}
+
+.alert-save-as .controls .uneditable-search span.uneditable-input,
+.alert-edit .controls .uneditable-search span.uneditable-input {
+    width: 246px;
+}
+
+.alert-save-as .trigger-actions,
+.alert-edit .trigger-actions {
+    padding-bottom: 20px;
+}
+
+.alert-save-as .trigger-actions .add-action-btn,
+.alert-edit .trigger-actions .add-action-btn {
+    margin-bottom: 10px;
+}
+
+.alert-save-as .trigger-actions .table-row-expanding>tbody>tr>td.expands a,
+.alert-edit .trigger-actions .table-row-expanding>tbody>tr>td.expands a {
+    padding: 4px 4px 4px 16px;
+}
+
+.alert-save-as .trigger-actions .table-row-expanding td.expands,
+.alert-edit .trigger-actions .table-row-expanding td.expands {
+    width: 35px;
+}
+
+.alert-save-as .trigger-actions .table-row-expanding td.expands.disabled:hover,
+.alert-edit .trigger-actions .table-row-expanding td.expands.disabled:hover {
+    border-right-color: transparent !important;
+}
+
+.alert-save-as .trigger-actions .table-row-expanding td.expands.disabled a,
+.alert-edit .trigger-actions .table-row-expanding td.expands.disabled a {
+    opacity: 0.1;
+    cursor: default;
+}
+
+.alert-save-as .trigger-actions .table-row-expanding td.expands:focus,
+.alert-edit .trigger-actions .table-row-expanding td.expands:focus {
+    background: rgba(63, 170, 255, 0.12);
+}
+
+.alert-save-as .trigger-actions .table-row-expanding .expandable td.action-title,
+.alert-edit .trigger-actions .table-row-expanding .expandable td.action-title {
+    cursor: pointer;
+}
+
+.alert-save-as .trigger-actions .alert-actions-control-group,
+.alert-edit .trigger-actions .alert-actions-control-group {
+    width: inherit;
+}
+
+.alert-save-as .trigger-actions .alert-actions-control-group table>tbody>tr>td,
+.alert-edit .trigger-actions .alert-actions-control-group table>tbody>tr>td {
+    border-left: none;
+    border-right: none;
+    background: none;
+}
+
+.alert-save-as .trigger-actions .alert-actions-control-group .active-action td,
+.alert-edit .trigger-actions .alert-actions-control-group .active-action td {
+    line-height: 24px;
+}
+
+.alert-save-as .trigger-actions .alert-actions-control-group .active-action td img,
+.alert-edit .trigger-actions .alert-actions-control-group .active-action td img {
+    width: 24px;
+    height: 24px;
+    padding: 0 5px 0 0;
+}
+
+.alert-save-as .trigger-actions .alert-actions-control-group .more-info .control-group,
+.alert-edit .trigger-actions .alert-actions-control-group .more-info .control-group {
+    width: 330px;
+    clear: both;
+}
+
+.alert-save-as .trigger-actions .alert-actions-control-group .more-info .control-label,
+.alert-edit .trigger-actions .alert-actions-control-group .more-info .control-label {
+    width: 50px;
+}
+
+.alert-save-as .trigger-actions .alert-actions-control-group .more-info .controls,
+.alert-edit .trigger-actions .alert-actions-control-group .more-info .controls {
+    margin-left: 70px;
+}
+
+.alert-save-as .trigger-actions .alert-actions-control-group .more-info .help-block,
+.alert-edit .trigger-actions .alert-actions-control-group .more-info .help-block {
+    width: 170px;
+}
+
+.alert-save-as .add-alert-action-dropdown li>a.unselected-action,
+.alert-edit .add-alert-action-dropdown li>a.unselected-action {
+    padding-left: 34px;
+    min-height: 25px;
+}
+
+.alert-save-as .add-alert-action-dropdown li>a.unselected-action>img,
+.alert-edit .add-alert-action-dropdown li>a.unselected-action>img {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 24px;
+    height: 24px;
+}
+
+.email-include>.shared-controls-syntheticcheckboxcontrol {
+    display: inline-block;
+    width: 130px;
+    vertical-align: top;
+    word-break: break-word;
+}
+
+.email-include>.shared-controls-syntheticcheckboxcontrol.include-inline {
+    width: inherit;
+    padding: 0 5px 0 0;
+    max-width: 62px;
+}
+
+.email-include>.shared-controls-syntheticselectcontrol.include-inline-format {
+    margin-top: 6px;
+    max-width: 62px;
+    word-break: break-word;
+    vertical-align: top;
+    white-space: normal;
+}
+
+.email-include>.shared-controls-syntheticselectcontrol.include-inline-format>a.dropdown-toggle {
+    display: inline-block;
+}
+
+.email-include>.shared-controls-syntheticcheckboxcontrol>label {
+    overflow: visible;
+}
+
+.modal-wide textarea.messagearea {
+    resize: both;
+    max-width: 575px;
+    min-width: 100%;
+    height: 100px;
+}
+
+.custom_time .time-advanced>.control-label {
+    max-width: none;
+}
+
+
+/* Override Splunk print styles */
+
+@media print {
+    a[href]:after {
+        content: ""
+    }
+    .app-search-controls-wrapper .search-field-background {
+        display: block !important;
+    }
+    .app-search-controls-wrapper .search-bar td,
+    .app-search-controls-wrapper .search-bar th {
+        width: 100% !important;
+        display: table-cell;
+    }
+    .app-search-controls-wrapper .search-button {
+        display: table-cell !important;
+    }
+    .app-search-controls-wrapper .shadowTextarea {
+        border: 1px solid #bfbfbf !important;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        min-height: 38px;
+    }
+    .app-search-controls-wrapper .btn {
+        border: 1px solid #bfbfbf !important;
+        background: transparent !important;
+        padding: 4px 12px !important;
+    }
+    .dashboard-body .input.input-text input,
+    .dashboard-body .select2-container .select2-choice,
+    .dashboard-body .select2-container .select2-choices,
+    .dashboard-body .select2-container .select2-search-choice {
+        border: 1px solid #bfbfbf !important;
+    }
+}
+
+.dvbanner {
+    font-size: 15px;
+}
+
+
+/* Stolen from ESCU */
+
+.search_string {
+    padding: 10px;
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+}
+
+.data_model_tag {
+    background-color: #11a88b;
+}
+
+.kill_chain_tag {
+    background-color: #ed8440;
+}
+
+.coredatasource {
+    float: left;
+    margin-right: 5px;
+    background-color: #3863a0;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.coredatasource a {
+    color: #eee;
+}
+
+.mitre {
+    float: left;
+    margin-right: 5px;
+    background-color: darkred;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.highlightedusecase {
+    float: left;
+    margin-right: 5px;
+    background-color: #F1C40F;
+    color: #641E16;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.killchain {
+    float: left;
+    margin-right: 5px;
+    background-color: darkgreen;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.technology {
+    float: left;
+    margin-right: 5px;
+    background-color: darkorange;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.cis {
+    float: left;
+    margin-right: 5px;
+    background-color: darkblue;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.relatedUseCase {
+    float: left;
+    margin-right: 5px;
+    background-color: #00a9f8;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.relatedUseCase a {
+    color: #eee;
+}
+
+#journeyMenu {
+    display: inline-block;
+}
+
+#UseCaseCounter {
+    display: inline-block;
+    height: 50px;
+    width: 350px;
+    background: #eee;
+}
+
+#UseCaseCounter .panel-footer {
+    display: none;
+}
+
+#UseCaseCounter .ui-resizable-handle {
+    display: none;
+}
+
+#div_journey_None {
+    display: none;
+}
+
+#div_journey_Stage_One {
+    display: inline-block;
+    width: 185px;
+    height: 300px;
+    padding-left: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+    margin-right: 0px;
+    background-image: url('/static/app/Splunk_Security_Essentials/images/general_images/stage1.png');
+}
+
+#div_journey_Stage_One label {
+    visibility: hidden;
+}
+
+#div_journey_Stage_One input[type=checkbox] {
+    display: inline-block;
+    width: 185px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage1.png') 0 0px no-repeat;
+}
+
+#div_journey_Stage_One input[type=checkbox]:before {
+    visibility: visible;
+    content: "";
+    display: inline-block;
+    width: 185px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage1.png') 0 0px no-repeat;
+}
+
+#div_journey_Stage_One input[type=checkbox]:checked:before {
+    visibility: visible;
+    content: "";
+    display: inline-block;
+    width: 185px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage1-checked.png') 0 0px no-repeat;
+}
+
+
+/*  */
+
+#div_journey_Stage_Two {
+    display: inline-block;
+    width: 215px;
+    height: 300px;
+    padding-left: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+    margin-right: 0px;
+    background-image: url('/static/app/Splunk_Security_Essentials/images/general_images/stage2.png');
+}
+
+#div_journey_Stage_Two label {
+    visibility: hidden;
+}
+
+#div_journey_Stage_Two input[type=checkbox] {
+    display: inline-block;
+    width: 215px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage2.png') 0 0px no-repeat;
+}
+
+#div_journey_Stage_Two input[type=checkbox]:before {
+    visibility: visible;
+    content: "";
+    display: inline-block;
+    width: 215px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage2.png') 0 0px no-repeat;
+}
+
+#div_journey_Stage_Two input[type=checkbox]:checked:before {
+    visibility: visible;
+    content: "";
+    display: inline-block;
+    width: 215px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage2-checked.png') 0 0px no-repeat;
+}
+
+#div_journey_Stage_Three {
+    display: inline-block;
+    width: 317px;
+    height: 300px;
+    padding-left: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+    margin-right: 0px;
+    background-image: url('/static/app/Splunk_Security_Essentials/images/general_images/stage3.png');
+}
+
+#div_journey_Stage_Three input[type=checkbox] {
+    display: inline-block;
+    width: 317px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage3.png') 0 0px no-repeat;
+}
+
+#div_journey_Stage_Three input[type=checkbox]:before {
+    visibility: visible;
+    content: "";
+    display: inline-block;
+    width: 317px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage3.png') 0 0px no-repeat;
+}
+
+#div_journey_Stage_Three input[type=checkbox]:checked:before {
+    visibility: visible;
+    content: "";
+    display: inline-block;
+    width: 317px;
+    height: 300px;
+    background: url('/static/app/Splunk_Security_Essentials/images/general_images/stage3-checked.png') 0 0px no-repeat;
+}
+
+#div_journey_Stage_Three label {
+    visibility: hidden;
+}
+
+.nojourney_main {
+    opacity: 0.5;
+}
+
+.nojourney_div {
+    position: relative;
+}
+
+.nojourneytext {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    margin-right: 5px;
+    background-color: darkblue;
+    color: #eee;
+    padding: 4px !important;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    z-index: 100;
+}
+
+.splAvailableText {
+    float: left;
+    margin-right: 5px;
+    background-color: #65A637;
+    color: #fff;
+    padding: 4px !important;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    z-index: 100;
+}
+
+.grayAppButton {
+    float: left;
+    margin-right: 5px;
+    background-color: #555555;
+    color: #fff;
+    padding: 4px !important;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    z-index: 100;
+}
+
+.searchListHighlight {
+    border: #65A637 solid 5px !important;
+}
+
+.nojourneysplAvailableText {
+    display: none;
+}
+
+.yesjourney_div {
+    position: relative;
+}
+
+.yesjourneytext {
+    display: none;
+}
+
+.navmenu label {
+    display: inline;
+}
+
+#UseCaseCounter table {
+    width: 350px;
+    height: 50px;
+    margin: 15px;
+    font-size: 1.5em;
+}
+
+.inscope,
+.total {
+    border-bottom: solid darkgray 3px;
+}
+
+.total {
+    color: purple;
+}
+
+.inscope {
+    color: darkorange;
+}
+
+.matching {
+    color: darkgreen;
+}
+
+.usecasevalue {
+    font-weight: bolder;
+}
+
+#journeyslider {
+    width: 750px;
+}
+
+.stagetablediv {
+    width: 100%;
+    display: block;
+    padding-bottom: 25px;
+}
+#makethiswhite {
+    color: white;
+}
+.makefont16pt {
+    font-size: 16pt;
+}
+.makefont12pt {
+    font-size: 12pt;
+}
+.makefont14pt {
+    font-size: 14pt;
+}
+#iiconmainpage{
+    margin-left: 8px; margin-right: 8px; position: relative; top: -3px;
+}
+.essentialshr{
+    border: 1px solid darkgray; margin-top: 10px; padding-top: 0; 
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.floatleft{
+    float: left;
+}
+
+.floatright{
+    float: right;
+}
+
+.lineheight20px{
+    line-height: 20px;
+}
+
+.lineheight24px{
+    line-height: 24px;
+}
+
+.journeyrow {
+    width: 100%;
+    margin: auto;
+    color: #808080;
+    vertical-align: middle;
+    padding-bottom: 0px;
+}
+.grayboxRight{
+    padding-left: 25px; float:right
+}
+.grayboxLeft{
+    padding-right: 25px; float:left
+}
+
+.journeyrow p {
+    padding-top: 10px;
+}
+
+.journeystage1 {
+    width: 125px;
+    height: 50px;
+    float: left;
+    text-align: center;
+    background-color: #EEEEEE;
+    cursor: pointer;
+}
+
+.journeystage2 {
+    width: 125px;
+    height: 50px;
+    float: left;
+    text-align: center;
+    background-color: #E7E7E7;
+    cursor: pointer;
+}
+
+.journeystage3 {
+    width: 125px;
+    height: 50px;
+    float: left;
+    text-align: center;
+    background-color: #E0E0E0;
+    cursor: pointer;
+}
+
+.journeystage4 {
+    width: 125px;
+    height: 50px;
+    float: left;
+    text-align: center;
+    background-color: #DADADA;
+    cursor: pointer;
+}
+
+.journeystage5 {
+    width: 125px;
+    height: 50px;
+    float: left;
+    text-align: center;
+    background-color: #D3D3D3;
+    cursor: pointer;
+}
+
+.journeystage6 {
+    width: 125px;
+    height: 50px;
+    float: left;
+    text-align: center;
+    background-color: #CCCCCC;
+    cursor: pointer;
+}
+
+#hamburgerContainer div {
+    width: 20px;
+    height: 3px;
+    background-color: gray;
+    margin: 3px 0;
+}
+
+#hamburgerContainer {
+    display: inline-block;
+    float: right;
+}
+
+
+/* The switch - the box around the slider */
+
+.filterswitch {
+    position: relative;
+    display: inline-block;
+    width: 35px;
+    height: 20px;
+}
+
+
+/* Hide default HTML checkbox */
+
+.filterswitch input {
+    display: none;
+}
+
+
+/* The slider */
+
+.filterslider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.filterLine {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    line-height: 20px;
+    margin-left: 5px;
+    top: -1em; /* I have no idea why I have to do this. It does not compute to me. */
+}
+
+.filterItem {
+    height: 20px;
+    margin: 5px;
+    width: 200px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+#filterlistul {
+    column-count: 3;
+}
+
+.filterslider:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    border-radius: 50%;
+    width: 15px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.filterslider {
+    background-color: #2196F3;
+}
+
+input:focus+.filterslider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.filterslider:before {
+    -webkit-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    transform: translateX(15px);
+}
+
+.tourbtn {
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    -webkit-border-radius: 28;
+    -moz-border-radius: 28;
+    border-radius: 28px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.tourbtn:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
+
+.dvexpand th.expands {
+    border-top: 1px solid darkgray !important;
+}
+/* Content for the collapsible sections in the assistants */
+
+.detailSectionContainer h2 {}
+
+.detailSectionContainer a {}
+
+.dropdowntext:hover {
+    text-decoration: none;
+}
+
+.dropdowntext {
+    color: black;
+}
+
+#dashboard-form-tabs {
+    display: none;
+}
+.showcase-list-item-title h3{
+    line-height: 12pt;
+}
+.highlight {
+    background-color: lightyellow;
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid black;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid black;
+}
+
+.arrow-down-big {
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid black;
+}
+
+.arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid black;
+}
+
+.arrow-right-big {
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid black;
+}
+
+.datasourceElements {
+    float: left;
+    margin-right: 5px;
+    background-color: #3863a0;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+#desc1Section {
+    display: none;
+}
+
+.datasourceElements a {
+    color: #eee;
+}
+
+.mitreElements {
+    float: left;
+    margin-right: 5px;
+    background-color: darkred;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.highlightElements {
+    float: left;
+    margin-right: 5px;
+    background-color: #F1C40F;
+    color: #641E16;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.killchainElements {
+    float: left;
+    margin-right: 5px;
+    background-color: darkgreen;
+    color: #eee;
+    padding: 4px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.auto-resizable-iframe {
+    max-width: 900px;
+    margin: 0px auto;
+}
+
+.auto-resizable-iframe>div {
+    position: relative;
+    padding-bottom: 75%;
+    height: 0px;
+}
+
+.auto-resizable-iframe iframe {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Tooltip container */
+
+.tooltipcontainer {
+    position: relative;
+    /*display: inline-block;*/
+    /*border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+
+/* Tooltip text */
+
+.tooltipcontainer .tooltiptext {
+    display: none;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+
+/* Show the tooltip text when you mouse over the tooltip container */
+
+.tooltipcontainer:hover .tooltiptext {
+    display: block;
+    visibility: visible;
+}
+
+
+/* Tooltip container */
+
+.contentstooltipcontainer {
+    /*display: inline-block;*/
+    /*border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+
+/* Tooltip text */
+
+.contentstile {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.contentstooltipcontainer .contentstooltiptext {
+    display: none;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+
+/* Show the tooltip text when you mouse over the tooltip container */
+
+.contentstooltipcontainer:hover .contentstooltiptext {
+    display: block;
+    visibility: visible;
+}
+
+
+/* Promoted from contents.css to app.css: contentstile, showcase-list-item-title showcase-list-item-content */
+
+.showcase-list-item-image {
+    height: 30px;
+    width: 30px;
+}
+
+.showcase-list-item-content {
+    display: inline-block;
+    width: 335px;
+    vertical-align: top;
+    margin-left: 10px;
+    /*max-height: 98px;
+    overflow: scroll;*/
+}
+
+.showcase-list-item-content p {
+    color: black;
+}
+
+.showcase-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.showcase-list h3 {
+    margin-top: 0;
+}
+
+.showcase-list li {
+    padding: 10px;
+    margin: 5px;
+    /*StyleChange*/
+    width: 430px;
+    height: 130px;
+    display: inline-block;
+    vertical-align: top;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.showcase-list-item-image {
+    height: 30px;
+    width: 30px;
+}
+
+.showcase-list-item-content {
+    display: inline-block;
+    width: 335px;
+    vertical-align: top;
+    margin-left: 10px;
+    /*max-height: 98px;
+    overflow: scroll;*/
+}
+
+.showcase-list-item-content p {
+    color: black;
+}
+
+.contentstile::-webkit-scrollbar {
+    display: none;
+}
+
+.showcase-list>li::-webkit-scrollbar {
+    display: none;
+}
+
+.contentstile {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.showcase-list>li {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.showcase-list p {
+    width: 335px;
+    /*height: 64px;
+    overflow: scroll;*/
+}
+
+.showcase-list li {
+    border: 1px solid lightgray;
+}
+
+.showcase-list li:hover {
+    border: 1px solid #dadada;
+    ;
+    box-shadow: 0 0 3px #9ecaed;
+}
+
+.tour {
+    background: #3498db;
+    color: #ffffff;
+    height: 35px;
+    line-height: 35px;
+    font-size: 13px;
+    margin-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+    display: inline-block;
+    float: right;
+}
+
+#exampleList {
+    background: #d8d8d8;
+    color: black;
+    font-weight: bolder;
+    height: 35px;
+    line-height: 35px;
+    font-size: 12px;
+    margin-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+    display: inline-block;
+    float: right;
+}
+
+.selectedButton {
+    background: #eaf5fe;
+    outline: none;
+    cursor: default;
+    border-color: black;
+    -webkit-box-shadow: inset 0px 0px 4px #ccc;
+    -moz-box-shadow: inset 0px 0px 4px #ccc;
+    box-shadow: inset 0px 0px 4px #ccc;
+}
+
+#exampleList>.first {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-left-width: 1px;
+}
+
+#exampleList>.last {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#exampleList>button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-color: #888888;
+    border-left-width: 0;
+}
+
+
+/* End promotion */
+
+#contentDescription h2 {
+    color: #555555;
+    font-weight: bolder;
+}
+
+.panel-body h2 {
+    color: #555555 !important;
+    font-weight: bolder !important;
+}
+
+.dvexpand .expanded th {
+    border-top: 1px solid darkgray !important;
+}
+
+
+
+
+
+
+
+.alert-box {
+    color:#555;
+    font-family:Tahoma, Geneva, Arial, sans-serif;
+    font-size:11px;
+    padding:10px 36px;
+    margin:10px;
+    color:#fff;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+.alert-box span {
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing: 1px;
+}
+.error {
+    background:#e47c68 /* url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAC3UlEQVR4Xm2RX0iTXQDGn1c3N2uzbUwvwrpww9jcRW5qlvLdqNCHeKUGaxd+qFdeBUEiSYYYKJ9/SnCwm9puhjGD11ARTOFTIckMW15JGJVDy/xE9y7d9r7ndHZgMsQfPBfnvM/z8PIcnOW/7u6/t/4d9EcGh/27T0f9u89G/ZGhYf+XoSH/cnd3I84gIIMJt7vBeckQUtbWNFAIQCkoE0AAQYCmvFz+GI22zBqNQa/XyzOqdNhbU9Ngk+XQ8aSoobKM80js7KiKq6oCe5ubYATByAKj02ptKCUkRBYXNSeKgi9GIyjAleabyYRj9k1eWlJdTyQCj4uL7yJFk91+e9JecrJeUEDf5efT5UeP6PHREZ2rr6dhdk5pvq6OSvv7dHVkhK6y8wbTnM2WbHU47uC+zeZfY6YPZjN939hICSGUwUvesJL52loeTvOpre20uMdiEbPI4RFYBAoYi4vYCwTASpBz8SJuBYO4MT6OXIOB3/0/MQFlairl58qOxaCiiszDAsBX//rgAWRm1jc38w2gViMmSTiensb2vXsAIenn4yUqWZZBBAECtwvcsPr8OUoqK6HR6bhZjscRZneXFQUC86ZJUEB1QgHCw+AlEasVRQMDSL1GIhrl709Y8GpfHz53duLqxsZpSZwSZEmaHBCA68higbmnByeUIsrC6pUVqObnIUkx/E4mkf/wIQ4dDvDNUp7sbGRtm0yv17XaJAGQd3AAQyIBKSrBEA7jR1cXfvb24tLKW8TYYHmsxMg8CoDNCxfIlsEg8u2qTCZ3q14fKJIktdpshpENuOfzpQfjv2xub4c0M4N4JILvOh0JxGIdcbvdxws8Hg9+LSy4Pbm5gSuHh2qcD1/+h15PXsbjHerqat/LUAgCMvirsND9j1YbuJYqoZQPmMk2C79IJjtcHo/vSX8/zqXO6WoauFEp+ktLxSmXS5wtKxNfOZ2ir6JC9Ny82eIdG0MmfwCjX3/U2vu6zQAAAABJRU5ErkJggg==) no-repeat 10px 50%*/;
+    border:1px solid #d46c57;
+}
+.error:hover {  background-color: #d46c57; }
+.success {
+    background:#4cbe83 /* url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAmJJREFUeNqkk0toE0Ech3+T3aRJX7RpPNgSgzQljYXiC1FbUcFrL9WTqAe96NGce+hF8KA5eVHsSaQni1CR4kHEFwoVxNrW0iJtA9lqk1TJbnZ2d3bGnbWPDT124Fvm9f32v+wMEUJgL02VD/IkASjEQw5IJwiGvd6AR3JzX8HjAwQmIEQRrjdyBcTV0v+AQBuKqpFcpiuTTiWS8eaG5qisz7D0I8vrK4MLxcWLlmPlvanJugq25NaGltFzfWezKpQYsxl0W99aa0x3dDcm25Mdb+fejVZNf94PCW1u6GwIRXJnegeyds2K6boOSmkdz3oeg5lO7GT6RDZCwjnp7AQwMdyzvztNdRozDAOmadZxt3vE3zZ1eNwLYbFUPJmWTjDgdKIpEa9Wq7Asy0dWsfZ7DTejV9BWbkKhUMC1l7cwOzcLTnlcOsGAAwqUqOu6+Hx+ClpZw8qvFaRIF061H4eqqhhbfooXpVdwQg6oTaPSCQaAuQw3Dl7GzMwMpg6N42iiHw/77/ny69J7PCiOATH4MJX5zk6AI1ZLxjod+XYHiqIgHA7jUe99hNUwFms/cXt5BLyZe/8CPjaxqHSCFXxcW9cqSlzB4I8h/61bXFq8DrRhW5bQaq0inWDAxJ/V8lIIxCRdBMe+X/DlvulBYF+9zLlrWpq5JJ2dAC6KrsHy5U/avGDcJCmCvq+enML2d0u4w0x9ujLPa25eOvUnkYtJpln4+1zLRbJN6UimMa6oalQuuRuM2gu1ij1vLHFH5NGqeKeQ7DrKfggvsS/0zcawx+7LpJAJtCjFoEL2ep3/CTAAj+gy+4Yc2yMAAAAASUVORK5CYII=) no-repeat 10px 50%*/;
+    border:1px solid #36ad6f;
+}
+.success:hover { background-color: #36ad6f; }
+.warning {
+    background:#feb742 /* url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABqklEQVR4XqWTvWsUURTFf+/tx7DmA5sUmyB+EGQDCkFRxCFosYWCFgELm2ApCBYW/gOCFpYSrUMsBIv4BwTSCSqaWgsTEDRV2EVBZWffvXIYwhZOEdgLhzmcc+7h3WKCuzPOhI+P80rDzE7WwmAHIHnzVIxxl4qJVaKbkYrBxvyVZQRxaYcq0EmehvePzp5YnD67hCAuzd0PUWB2JNQazzo377D7+auAuDR51QWjZWxYvD2e34DsJw+fbwviSJOnTHWBO5aGt6fa84szF67CzguCIYgjTZ4yuP9fYGqO2avO8j348hSKff4OkiAuDXnKKDsqGD1989jSLWJvA/58g+YUv34Xgrg0eSij7MEpsXx66k62O932wjT030NjAuotXj/YE8SlyUMZZbWj3ejmEFubp69fg711yCYha0GWcXftjCAuTZ4yKKsd7dbNfHXuUk6jeAPNCSBCAJpGb78PiGel7gCmLHMXc76/21oNn57kfm5lFg0W0KBPDag7GoYBEuCUE0uy/fIH4cOjy27J0SlI56DEiSVFFi4dEUUIMRBrQZTzjDFj/87/ACmm3+QFX8sKAAAAAElFTkSuQmCC) no-repeat 10px 50% */ ;
+    border:1px solid #eda93b;
+}
+.warning:hover { background-color: #eda93b; }
+.notice {
+    background:#77d3e0 /*url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAwFBMVEX///8AVq0CYcADbNEDaMoDa88Das0EcdkFfe0CZMPv9fu/1esFe+kBXbkEdd8Uf+QEb9VRkdAGf/AFeecRacAEc9wBW7QBX7zs6dwFeudRjswGgvUFd+MCZscDbtTl4tIBWbFEo/rh3s7A2/QAVasCZcYEcNcBYL3n5NUFfOsWhe5UqPVCkNvj4NDd2swyhNMGgPIBXLbq59nB4Pw1m/lToOgCY8RBi9Lv9/8FduHm49QxfMfo5dcQYrNTnuVBhMhJU/nRAAAAAXRSTlMAQObYZgAAAMpJREFUeF4lzdVyRTEIQFGI57i7XXet+///VZN2vy0YBrA9HPZeF34v4L/XWXtVdRdIenT+/NheE2W8puxiJ7O2TZSq7jLiTMfm3u53YVXhIHriu3BIEuXVdYBI2Yr4Dex3npd22893KnpdFl9Qp2n3FgTbEZkm/oSQGuVSjiOagwJ9CPNcrodhPCEpb9MygycZDZTz0xyNsYhhkXMhGJuf0XhJXIBj1K/02YTGDQA4F042G7SRDwfs5EVo828qn3+sbW6cEZI1rsUvrDkTPAFMyQwAAAAASUVORK5CYII=) no-repeat 10px 50%*/ ;
+    border:1px solid #6cc8d4;
+}
+.notice:hover { background-color: #6cc8d4; }
+
+
+.sse-analytic-stories th,td{
+    min-width: 120px;
+}
+
+.space {
+    display: inline-block;
+    width: 5px;
+}

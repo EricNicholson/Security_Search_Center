@@ -1,0 +1,25 @@
+<dashboard script="components/data/generateDiag.js,data_source.js,vendor/FileSaver/FileSaver.js" stylesheet="data_source.css">
+  <label>Data Source Onboarding Guides</label>
+  <row id="introTextRow">
+    <panel>
+      <html>
+        <div><p>Loading....</p>
+        </div>
+      </html>
+    </panel>
+  </row>
+  <row id="dataSourcesTextRowID" depends="$dataSourcesTextRow$">
+    <panel>
+      <html>
+        <div id="dataSourceToTechnology">Placeholder</div>
+      </html>
+    </panel>
+  </row>
+    <row depends="$_hidden_$">
+    <panel>
+      <html>
+        <div></div>
+      </html>
+    </panel>
+  </row>
+</dashboard>

@@ -1,0 +1,103 @@
+<dashboard>
+    <label>Investigate GDPR Breaches Using ES</label>
+    <row>
+        <panel>
+            <html>
+                <h4>Problem:</h4>
+                <p>If you have a security incident you need to validate if it is a breach or becomes a breach and if it needs to be reported. Additionally you need to document your findings so you can prove when did you know what and how did you knew about it in case of a data privacy audit under the GDPR. </p>
+
+                <h4>Impact:</h4><p>Organizations must be able to provide the full audit trail of data processing activities of involved systems and applications if breached. Article 33 requires organizations to inform the authorities, including details about the nature of the breach, within 72 hrs of awareness of the breach. The same requirement is in Article 34 for when organizations must identify which individuals are affected, and if high risk for them they have to notify them immediately. A GDPR relevant incident can require cooperation from multiple departments and constituents and therefore investigative capabilities to determine a) whether or not there was a breach; b) identification of all involved system and user accounts; c) identification of what potential data was involved; d) verification if data was accessed, leaked or not; e) ownership of the data in question; and f) determine and classify the type of breach, methods involved, and verify effective risk mitigations and applied countermeasures; are all considered best practices and can be considered necessary as a part of effective security control, as required by Article 32.</p>
+                <p>Per Article 58, each supervisory authority has the power to carry out investigations in the form of data protection audits and issue warnings, reprimands, or bans on data processing - which means you need to be able to demonstrate what did you know about an incident when. This documentation and prove can be achieved with Splunk Enterprise Security’s Investigator Journal features - where not just multiple analysts can collaborate on an investigation efficiently and put their findings on a timeline - this can also be used to document the activities of a data breach, record when things have been detected, actions taken, what knowledge was available at which time, when was the authorities informed, when have been risk mitigation actions identified and actually implemented.</p>
+
+            </html>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 520px; padding: 10px;">
+                    <a href="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_1.png" target="_blank"><img src="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_1.png" /></a>
+                    <p style="color: gray; display: inline-block; clear:both;width: 500px">
+                        <center><i></i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 520px; padding: 10px;">
+                    <a href="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_2.png" target="_blank"><img src="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_2.png" /></a>
+                    <p style="color: gray; display: inline-block; clear:both;width: 500px">
+                        <center><i></i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 520px; padding: 10px;">
+                    <a href="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_3.png" target="_blank"><img src="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_3.png" /></a>
+                    <p style="color: gray; display: inline-block; clear:both;width: 500px">
+                        <center><i></i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 520px; padding: 10px;">
+                    <a href="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_4.png" target="_blank"><img src="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_4.png" /></a>
+                    <p style="color: gray; display: inline-block; clear:both;width: 500px">
+                        <center><i></i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 520px; padding: 10px;">
+                    <a href="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_5.png" target="_blank"><img src="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_5.png" /></a>
+                    <p style="color: gray; display: inline-block; clear:both;width: 500px">
+                        <center><i></i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 520px; padding: 10px;">
+                    <a href="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_6.png" target="_blank"><img src="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_6.png" /></a>
+                    <p style="color: gray; display: inline-block; clear:both;width: 500px">
+                        <center><i></i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 520px; padding: 10px;">
+                    <a href="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_7.png" target="_blank"><img src="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_7.png" /></a>
+                    <p style="color: gray; display: inline-block; clear:both;width: 500px">
+                        <center><i></i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 520px; padding: 10px;">
+                    <a href="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_8.png" target="_blank"><img src="/static/app/Splunk_Security_Essentials/images/example_images/es_inv_8.png" /></a>
+                    <p style="color: gray; display: inline-block; clear:both;width: 500px">
+                        <center><i></i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+    </row>
+</dashboard>

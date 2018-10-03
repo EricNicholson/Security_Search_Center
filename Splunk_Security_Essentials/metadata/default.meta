@@ -1,0 +1,49 @@
+[]
+access = read : [ * ], write : [ admin, power ]
+
+[viewstates]
+access = read : [ * ], write : [ * ]
+export = system
+
+[commands]
+export = system
+#export = system
+
+[searchbnf]
+export = system
+
+[app/install/install_source_checksum]
+version = 6.5.2
+modtime = 1492199342.885660000
+
+[views/use_case_metrics]
+owner = admin
+version = 7.0.0
+modtime = 1513706850.650944000
+
+[ui-tour/showcase_simple_search-tour%3Aenterprise]
+owner = admin
+version = 7.0.1
+modtime = 1516200723.381278000
+
+[views/journey]
+version = 7.0.2
+modtime = 1519061060.343288000
+
+[macros/User_to_Index_Provisioning_From_Data_Governance_App]
+export = none
+owner = admin
+version = 7.0.1
+modtime = 1518020879.050514000
+
+[ui-tour/contents-tour%3Aenterprise]
+owner = admin
+version = 7.0.1
+modtime = 1518573990.552671000
+
+[macros/Load_Sample_Log_Data%281%29]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = nobody
+version = 7.1.1
+modtime = 1533296062.205635000

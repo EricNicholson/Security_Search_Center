@@ -1,0 +1,127 @@
+#bookmarkNavContainer {
+    height: 35px;
+    width: 400px;
+    font-size: 13px;
+    line-height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 20px;
+    background-color: #d3d3d3;
+    display: inline-block;
+    float: right;
+    text-align: center;
+}
+#main_table_body .name {
+    font-size: 11pt;
+}
+
+#bookmarkrow {
+    background-color: #eee
+}
+
+.dvbanner {
+    font-size: 15px
+}
+.panel-title{
+    height: 2.1em
+}
+#bookmark_printable_table{
+    display: none;
+}
+.printonly {
+    display: none;
+}
+#bottomTextBlock {
+    display: block; 
+    height: 200px; 
+    width: 100%; 
+    /*background-color: rgb(238, 238, 238); */
+    text-align: right;
+}
+
+@media print{
+    #row2 .dashboard-cell{
+        width: 210px !important;
+        display: inline-block !important;
+    }
+    .tooltip {
+        display: none !important;
+    }
+    .dashboard-title::before{
+        content: "Splunk Security Essentials ";
+    }
+    #bookmarkNavContainer{
+        display: none;
+    }
+    #footer {
+        display: none;
+    }
+    .tableexpand{
+        display: none;
+    }
+    .tableChangeStatus{
+        display: none;
+    }
+    .dashboard-view-controls{
+        display: none;
+    }
+    .editCustomUseCaseIcons{
+        display: none;
+    }
+    .printandexporticons{
+        display: none;
+    }
+    #bookmark_table{
+        display: none;
+    }
+    #bookmark_printable_table{
+        display: block;
+    }
+    #bookmark_printable_table h1 {
+        page-break-before: always;
+        break-before: always;
+    }
+    .dvexpand thead { display: table-row-group !important;}
+    body .dvexpand td {
+        
+        display: inline-block !important;
+    }
+    body td {
+        word-break: normal !important;
+        
+    }
+    .printonly {
+        display: block
+    }
+    .breakbeforethis{
+        page-break-before: always;
+        break-before: always;
+
+    }
+    .linebylinespl td{
+        border: 1px solid darkgray !important;
+        padding-left: 4px; 
+        padding-right: 4px; 
+    }
+    .splside {
+        font-family: "Courier New", monospace;
+        white-space: pre;
+        width: 50% !important;
+        white-space: pre-wrap;      /* CSS3 */   
+        white-space: -moz-pre-wrap; /* Firefox */    
+        white-space: -pre-wrap;     /* Opera <7 */   
+        white-space: -o-pre-wrap;   /* Opera 7 */    
+        word-wrap: break-word;      /* IE */
+    }
+    .docside {
+        width: 50% !important;
+    }
+    .donotbreak {
+        page-break-inside: avoid;
+    }
+    
+    #bottomTextBlock {
+        display: none !important;
+    }
+    
+}    

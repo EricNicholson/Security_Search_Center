@@ -1,0 +1,24 @@
+<nav search_view="search" color="#00a9f8">
+	<view name="home" default='true' />
+  <collection label="Security Content">
+    <view name="contents"/>
+    <divider />
+    <view name="overview" />
+    <view name="bookmarked_content" />
+  </collection>
+  <view name="journey" />
+  <view name="data_source_check" />
+    <view name="setup" />
+  <collection label="Documentation">
+    <view name="data_source" />
+    <a target="_blank" href="https://splunkbase.splunk.com/app/3435/#/details">Install Documentation</a>
+    <a target="_blank" href="https://answers.splunk.com/answers/ask.html?appid=3435">Ask a Question</a>
+  </collection>
+  <collection label="Advanced">
+    <view name="search"/>
+    <view name="showcase_standard_deviation"></view>
+    <view name="showcase_first_seen_demo"></view> 
+    <view name="showcase_simple_search"></view> 
+  </collection>
+  <!--<a href="http://docs.splunk.com/Documentation/MLApp">Docs</a>-->
+</nav>

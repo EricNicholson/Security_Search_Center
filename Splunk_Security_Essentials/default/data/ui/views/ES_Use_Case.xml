@@ -1,0 +1,162 @@
+<form script="es_use_case.js" stylesheet="/style/app.css">
+  <label>ES Use Case</label>
+  <fieldset submitButton="false"></fieldset>
+  <row>
+    <panel>
+      <html>
+        <h2>About Splunk Enterprise Security</h2>
+        <div style="float:left; width:10%">
+          <br></br>
+                   <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/land_images/es_logo.png"/>
+ 
+        </div>
+        <div style="float:right; width:89%">
+        <p>You're exploring an example that, while could be done in Splunk Enterprise with a lot of effort, is more easily accomplished with <a href="https://www.splunk.com/en_us/products/premium-solutions/splunk-enterprise-security.html" target="_blank">Splunk's Enterprise Security (ES).</a>
+          </p>
+        <p>ES is Splunk's premium and flagship security product, which combines out-of-the-box SIEM functionality, several interactive features designed for Incident Response, and a set of security-centric data models so that you get value from your security data quickly and easily. Other important ES features include:</p>
+        <li>Five frameworks designed from the ground up to support your SOC and IR teams, including Asset/Identity, Risk, Notable Event, Threat Intelligence, and Adaptive Response;</li>
+        <li>Built-in correlation rules to notify you about common and not-so-common security incidents;</li>
+        <li>Investigator Journal and Timeline that allow your teams to fully document and collaborate on incidents;</li>
+        <li>Regularly-updated analytic content to help you detect and defend against the latest cyber-threats; and</li>
+        <li>Integrates with <a href="https://www.splunk.com/en_us/products/premium-solutions/user-behavior-analytics.html" target="_blank">Splunk UBA</a> to start investigations from user behavior threats and anomalies.</li>
+        <br/>
+        </div>
+        </html>
+      <html>
+        <p><b>The majority of the Security Examples marked as <span style="float:none; font-weight: normal; " class="grayAppButton">Try Splunk ES</span>within Security Essentials are "out-of-the-box" correlation searches within ES, as shown in the screencaps that you can select below. Find out more about Splunk Enterprise Security <a href="https://www.splunk.com/en_us/products/premium-solutions/splunk-enterprise-security.html" target="_blank">here</a>.</b></p>
+        </html>
+    </panel>
+    <panel depends="$gotusecase$"><html><h2>Your Use Case</h2><div id="usecasecontent"></div></html></panel>
+  </row>
+  <row><panel depends="$gotusecasedetails$"><html><h2>Details for your Use Case</h2><div id="usecasedetail"></div></html></panel>
+  </row>
+  <row><panel depends="$gotusecasescreenshots$"><html><h2>Screenshots for your Use Case</h2><div id="usecasescreenshots"></div></html></panel>
+  </row>
+  <row>
+    <panel>
+      <input type="link" token="needed">
+         <label>Select a Security Journey Stage for an Example Screenshot</label>
+        <choice value="stage1">Collection</choice>
+        <choice value="stage2">Normalization</choice>
+        <choice value="stage3">Expansion</choice>
+        <choice value="stage4">Enrichment</choice>
+        <choice value="stage6">Advanced</choice>
+        <default>stage1</default>
+        <change>
+          <condition value="stage1">
+            <set token="showstage1">true</set>
+            <unset token="showstage2"></unset>
+            <unset token="showstage3"></unset>
+            <unset token="showstage4"></unset>
+             <unset token="showstage6"></unset>
+        </condition>
+          <condition value="stage2">
+            <set token="showstage2">true</set>
+            <unset token="showstage1"></unset>
+            <unset token="showstage3"></unset>
+            <unset token="showstage4"></unset>
+           <unset token="showstage6"></unset>
+          </condition>
+           <condition value="stage3">
+            <set token="showstage3">true</set>
+            <unset token="showstage1"></unset>
+            <unset token="showstage2"></unset>
+            <unset token="showstage4"></unset>
+           <unset token="showstage6"></unset>
+          </condition>
+           <condition value="stage4">
+            <set token="showstage4">true</set>
+            <unset token="showstage1"></unset>
+            <unset token="showstage3"></unset>
+            <unset token="showstage2"></unset>
+           <unset token="showstage6"></unset>
+          </condition>
+           <condition value="stage6">
+            <set token="showstage6">true</set>
+            <unset token="showstage1"></unset>
+            <unset token="showstage3"></unset>
+            <unset token="showstage4"></unset>
+           <unset token="showstage2"></unset>
+          </condition>
+        </change>
+      </input>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html depends="$showstage1$">
+        <h2>Example Stage 1 ES Correlation Search Results</h2> <h3><i>Personally Identifiable Information Detected</i></h3>
+        
+        <br/>
+        <div style="float:left; width:79%">
+          <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/land_images/stage1_es.png"/>
+        </div>
+        </html>
+      <html depends="$showstage2$">
+        <h2>Example Stage 2 ES Correlation Search Results</h2> <h3><i>Brute Force Access Behavior Detected</i>
+        </h3>
+           <br/>
+        <div style="float:left; width:79%">
+          <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/land_images/stage2_es.png"/>
+        </div>
+      </html>
+      <html depends="$showstage3$">
+        <h2>Example Stage 3 ES Correlation Search Results</h2> <h3><i>Abnormally High Number of Endpoint Changes</i>
+        </h3>
+        <br/>
+        <div style="float:left; width:79%">
+                   <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/es_images/es_abnormal_number_endpoint_changes.png"/>
+        </div>
+      </html>
+      <html depends="$showstage4$">
+        <h2>Example Stage 4 ES Correlation Search Results</h2> <h3><i>Threat Activity Detected</i>
+        </h3>
+        <br/>
+        <div style="float:left; width:79%">
+                   <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/land_images/stage4_es.png"/>
+        </div>
+      </html>
+      <html depends="$showstage6$">
+        <h2>Example Stage 6 ES Correlation Search Results</h2> <h3><i>UEBA Threat Detected</i>
+        </h3>
+        <br/>
+        <div style="float:left; width:79%">
+                   <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/land_images/stage6_es.png"/>
+        </div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$Superman$">
+      <html><!--
+        <h3>Geographically Improbable Accesses (Superman Problem)</h3>
+        <p>The superman problem is one of the first use cases most UEBA solutions take on - detecting account compromise by looking for sequential logins from distant parts of the world, where it is in improbable someone might travel (such as a login from North Korea 5 minutes or 5 seconds after a login San Francisco).</p>
+        <p>This use case is so common, that you can actually solve it in several places within Splunk. It is provided as a native anomaly in Splunk UBA, you can download a community supported app called <a href="https://splunkbase.splunk.com/app/3232/">SA-geodistance</a>. However, if you don't have UBA deployed yet, and you don't want to try to configure a community supported app to work for you, Splunk ES has this out of the box! Under Security Intelligence -&gt; User Intelligence -&gt; Access Anomalies, you can find a series of report of use, including the Geographically Improbable Accesses report. To automatically be alerted, or automatically integrate this into your Anomaly Aggregation solution of choice (Splunk UBA, ES Risk, etc.), ES also has a correlation rule out of the box to do this detection. </p>
+        <h3>Screenshot(s)</h3>
+        <div style="float:left; width:49%">
+          <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/es_images/es_superman.png"/>
+        </div>
+        <div style="float:right; width:49%">
+          <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/es_images/es_ir_superman.png"/>
+        </div> -->
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$ListeningPort$">
+      <html><!-->
+        <h3>Anomalous New Listening Port</h3>
+        <p>Unusual new listening ports is a sign of potential malware persistence in your environment. Building out this search, with the potential cardinality of every unique port on every system in your environment can be a trial. Fortunately, Splunk ES ships this search out of the box!</p>
+
+        <p>Just as with many anomalies, it may be benign - the installation of some new software that opens new listening ports - so it is important to correlate this event with other anomalous events in your environment though an aggregation layer, such as Splunk UBA (or as a starting point, Splunk ES's Risk Framework). </p>
+        <h3>Screenshot(s)</h3>
+        <div style="float:left; width:49%">
+          <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/es_images/es_anomalous_listening_port.png"/>
+        </div>
+        <div style="float:right; width:49%">
+          <img style="border: gray 1px solid;" src="/static/app/Splunk_Security_Essentials/images/es_images/es_ir_anomalous_listening_port.png"/>
+        </div>-->
+      </html>
+    </panel>
+  </row>
+</form>

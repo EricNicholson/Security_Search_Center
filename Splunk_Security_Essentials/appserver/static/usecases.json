@@ -1,0 +1,56 @@
+[
+	{
+		"number": 1,
+		"name": "security_monitoring",
+		"displayname": "Security Monitoring",
+		"description": ""
+	},
+	{
+		"number": 2,
+		"name": "compliance",
+		"displayname": "Compliance",
+		"description": ""
+	},
+	{
+		"number": 3,
+		"name": "incident_investigation",
+		"displayname": "Incident Investigation &  Forensics",
+		"description": ""
+	},
+	{
+		"number": 4,
+		"name": "incident_response",
+		"displayname": "Incident Response",
+		"description": ""
+	},
+	{
+		"number": 5,
+		"name": "soc_automation",
+		"displayname": "SOC Automation",
+		"description": ""
+	},
+	{
+		"number": 6,
+		"name": "advanced_threat_detection",
+		"displayname": "Advanced Threat Detection",
+		"description": ""
+	},
+	{
+		"number": 7,
+		"name": "insider_threat",
+		"displayname": "Insider Threat",
+		"description": ""
+	},
+	{
+		"number": 8,
+		"name": "fraud_detection",
+		"displayname": "Fraud Detection",
+		"description": ""
+	},
+		{
+		"number": 9,
+		"name": "application_security",
+		"displayname": "Application Security",
+		"description": ""
+	}
+]

@@ -1,0 +1,141 @@
+<dashboard script="components/data/generateDiag.js,runPageScript.js,vendor/bootstrap/bootstrap.js,vendor/bootstrap-multiselect/bootstrap-multiselect.js" stylesheet="vendor/bootstrap/bootstrap.css,vendor/bootstrap-multiselect/bootstrap-multiselect.css,securityjourney.css">
+
+  <label>Security Content</label>
+  <row>
+    <panel>
+      <html>
+        <hr class="essentialshr" />
+        <div class="lineheight24px"> 
+          <a href="#" class="dropdowntext" id="desc1_link">  <div class="arrow-right-big" id="desc1_arrow"></div> 
+          
+          <img id="iiconmainpage" src="/static/app/Splunk_Security_Essentials/images/general_images/info-icon.png" /> How can you map this content to Splunk's Security Journey, and make your environment more secure?</a>
+        </div> 
+        <div id="desc1Section" class="welcome-header maindesc">
+          <h2>Introduction</h2>
+            <p>Welcome to the Splunk Security Essentials app! In this app, we have provided <b id="analyticCount">340</b> different examples of how Splunk’s analytics-driven security can be used throughout your security journey. To help you along the way, each example is documented so you can understand how it works, how to use it, and the level of difficulty. We’ve even provided data onboarding guides for some of the top data sources that feed these examples!</p>
+<p>What’s an example, you ask? An example is a fully-usable piece of security content using Splunk’s detection abilities to assist you in securing your environment or hunting for potential evil. They can be used stand-alone or in conjunction with others, and in Splunk Enterprise (core) or with ES and UBA. We also map into the six stages that represent the Splunk Security Journey.</p>
+<p>Each example includes sample data so that you can see what it does, after which you are encouraged to turn it loose on your own data! To help you better match the example to your environment, we have prerequisite checks and thorough documentation. The examples are also mapped to common frameworks like MITRE ATT&amp;CK and a generic kill chain. You can save searches directly from this app to create Notable Events in ES, External Alarms in UBA, or simply kick off an alert action in Splunk Enterprise.</p>
+<p>We recommend that to start you determine which of the six stages best represents where your organization is leveled today with Splunk. Next, you can explore the examples associated with that stage in the journey. The filters allow you to hone in on exactly the use cases, areas, and data sources that are applicable. And in case you forget, each page has a tour in the upper right that will walk you through all of the functionality!</p>
+          <h2>Security Journey <span class="makefont12pt">(<a class="external drilldown-icon" target="_blank" href="journey">Read More</a>)</span></h2>
+          <div  class="column stagetablediv">
+    <table id="stagetable">
+      <tr>
+        <td>
+          <div class="topstagename">STAGE 6
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div id="stage6" class="roundcorners stageheight stage stage6 ">
+            <div class="journeystagename">
+              Advanced Detection
+            </div>
+            <div class="journeystagedesc">
+              Apply sophisticated detection mechanisms including machine learning
+            </div>
+          </div>
+          <div class="stageheight stagename">
+            STAGE 5
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div id="stage5" class="roundcorners stageheight stage stage5 ">
+            <div class="journeystagename">
+              Automation and Orchestration            
+              </div>
+            <div class="journeystagedesc">
+              Establish a consistent and repeatable security operation capability
+            </div>
+          </div>
+          <div class="stageheight stagename">
+            STAGE 4
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div id="stage4" class="roundcorners stageheight stage stage4 ">
+            <div class="journeystagename">
+              Enrichment
+            </div>
+            <div class="journeystagedesc">
+              Augment security data with intelligence sources to better understand the context and impact of an event
+            </div>
+          </div>
+          <div class="stageheight stagename">
+            STAGE 3
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div id="stage3" class="roundcorners stageheight stage stage3 ">
+            <div class="journeystagename">
+            Expansion            </div>
+            <div class="journeystagedesc">
+              Collect additional high fidelity data sources like endpoint activity and network metadata to drive advanced attack detection
+            </div>
+          </div>
+          <div class="stageheight stagename">
+            STAGE 2
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div id="stage2" class="roundcorners stageheight stage stage2 ">
+            <div class="journeystagename">
+              Normalization
+            </div>
+            <div class="journeystagedesc">
+              Apply a standard security taxonomy and add asset and identity data
+            </div>
+          </div>
+          <div class="stageheight stagename">
+            STAGE 1
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div id="stage1" class="roundcorners stageheight stage stage1">
+            <div class="journeystagename">
+              Collection
+            </div>
+            <div class="journeystagedesc">
+              Collect basic security logs and other machine data from your environment
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+        </div>
+        <hr class="essentialshr" />
+
+
+        <div id="journeyContainer">
+          <h2 class="floatleft">Filter Examples</h2>
+          <div id="AnalyticCount"><b id="totalNum">241</b> Total   |   <b id="filterNum">428</b> Filtered
+            <div class="grayboxLeft" id="selectFilterLink"><a href="#">Select Filters</a></div>
+            <div class="grayboxRight" id="defaultFilterLink"><a href="#">Default Filters</a></div>
+            <div class="grayboxRight" id="resetFilterLink"><a href="#">X  Clear Filters</a></div>
+          </div>
+          
+          <div id="Tour" class="tour"><a class="external drilldown-link" id="makethiswhite" href="contents?tour=contents-tour">Learn how to use this page</a></div>
+          <div id="search"><i class="icon-search" id="searchIcon" /></div>
+          <div id="searchbarDiv"><div id="hiddenValues"></div><input id="searchBar" type="text" /><i id="searchCloseIcon" class="icon-close" /></div>
+          <div class="input input-dropdown splunk-view">
+            <div id="rolePickerControl"></div>
+          </div>
+        </div>
+        <div id="mainDisplay"></div>
+      </html>
+    </panel>
+  </row>
+  <row><panel><html><a href="#" id="bookmarkAllIcon"><i class="icon-bookmark makefont16pt"  /> Bookmark All </a><span class="space"></span><span class="space"></span><a href="#" id="unbookmarkAllIcon" ><i class="icon-bookmark makefont16pt"  /> Remove All Bookmarks </a></html></panel></row>
+
+</dashboard>

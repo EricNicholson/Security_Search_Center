@@ -1,0 +1,31 @@
+<dashboard>
+    <label>GDPR Glass Table in ES</label>
+    <row>
+        <panel>
+            <html>
+                <h4>Problem:</h4>
+                <p>A data privacy officer needs to have a centralized overview to ensure IT has the right audit logs and visibility into the data processing stack of personal information. </p>
+
+                <h4>Description:</h4>
+                <p>To comply with multiple requirements of the GDPR it’s critical to ensure a full audit trail of data processing activities is kept. This visualization and underlying searches showcase if the logging policy is configured correctly on GDPR tagged data sources to keep a trail of read/add/update and delete activities - including a timestamp and the user who processed it. Additionally it gives an overview how many authorized applications are pushing/pulling data through API’s and if there are any undocumented once occuring raising a red flag. Also it showcases that only authorized employees and suppliers are connecting to access the personal information and that use strong authentication according to the risk profile. </p>
+
+                <h4>Impact:</h4>
+                <p>Per GDPR Article 15, individuals have the right to ask an organization where their data is stored. In order to fulfill such a request, an organization will need to identify which vendors and processors have accessed the personal data in question, and also identify and report on which other services the personal data in question is processed regularly.</p>
+
+                <p>The GDPR allows also an individual to ask for erasure of their data (Article 17). In fulfilling this request, organizations will need to verify that the data in question was in fact deleted and show the evidence that the activity that erased the data was performed, on all targeted systems. The organization will also need to maintain an audit trail to prove the execution of data erasure activity, in the event of subsequent compensation claims. The GDPR also allows an individual to restrict the processing of personal data to a limited set of reasons (Article 18). The organization will need to prove that data was not processed on the particular systems that the individual did not agree on, or did not consent to. Similarly, per Article 22, the individual has the right to not be the subject of automated decision making processes. When processing personal data on behalf of a controller - there will also be a requirement to prove that only authorized individuals have accessed the data in question, and that the data was deleted or restored to a compliant state after processing (Article 28). If there is an audit trail that shows non-compliance, then this will need to be documented and / or reported to the data privacy authorities. Per Article 58, each supervisory authority has the power to carry out investigations in the form of data protection audits and issue warnings, reprimands, or bans on data processing.</p>
+            </html>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <html>
+                <div style="display: block; margin:10px; border: 1px solid lightgray;width: 820px; padding: 10px;">
+                    <img src="/static/app/Splunk_Security_Essentials/images/example_images/es_gdpr_glasstable.png" />
+                    <p style="color: gray; display: inline-block; clear:both;width: 800px">
+                        <center><i>An example Glass Table tracking communications with Salesforce, as it contains lots of customer PII data.</i></center>
+                    </p>
+                </div>
+            </html>
+        </panel>
+    </row>
+</dashboard>
