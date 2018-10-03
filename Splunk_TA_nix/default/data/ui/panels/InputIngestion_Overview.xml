@@ -1,9 +1,9 @@
 <panel>
-  <title>Unix - Input ingestion over 24 hours</title>
+  <title>Unix - Input Ingestion over 24 Hours</title>
 
   <table>
     <searchString>
-  index=os 
+  index=*
 | eval eventcount=1
 | eval eventsize=len(_raw)
 | eval eps=eventcount/(5*60.0)

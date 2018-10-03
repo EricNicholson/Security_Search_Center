@@ -1,5 +1,5 @@
 #!/bin/sh                                                                                                
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.                                                                      
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.                                                                      
 #                                                                                                        
 #   Licensed under the Apache License, Version 2.0 (the "License");                                      
 #   you may not use this file except in compliance with the License.                                     
@@ -20,30 +20,65 @@
 # 	SPLUNKD is used to determine Splunk service status.
 
 if [ "x$KERNEL" = "xLinux" ] ; then
-	assertHaveCommand date
-	CMD='eval date ; /sbin/chkconfig --list'
-	
-	PARSE_0='NR==1 {DATE=$0 ; FULLTEXT=""}'
-	PARSE_1='NR>1 {
-		FULLTEXT = FULLTEXT $0 "\n"
-		split($0, ARR)
-		EVT="app=" ARR[1]
-		for (i=0 ; i<7 ; i++) {
-			split(ARR[i+2], STATE, ":")
-			EVT = EVT " runlevel" i "=" STATE[2]
-		}
-		if (ARR[1] ~ /[Ss][Pp][Ll][Uu][Nn][Kk]/) { SPLUNKD=1 }
-		printf "%s %s\n", DATE, EVT
-	}'
-	MASSAGE="$PARSE_0 $PARSE_1"
+	queryHaveCommand systemctl
+	if [ $? -ne 0 ]; then
+		assertHaveCommand date
+		assertHaveCommand chkconfig
+		CMD='eval date ; /sbin/chkconfig --list'
+		PARSE_0='NR==1 {DATE=$0 ; FULLTEXT=""}'
+		PARSE_1='NR>1 {
+			FULLTEXT = FULLTEXT $0 "\n"
+			split($0, ARR)
+			EVT="app=" ARR[1]
+			for (i=0 ; i<7 ; i++) {
+				split(ARR[i+2], STATE, ":")
+				EVT = EVT " runlevel" i "=" STATE[2]
+			}
+			if (ARR[1] ~ /[Ss][Pp][Ll][Uu][Nn][Kk]/) { SPLUNKD=1 }
+			printf "%s type=chkconfig %s\n", DATE, EVT
+		}'
+		MASSAGE="$PARSE_0 $PARSE_1"
 
-	# Send the collected full text to openssl; this avoids any timing discrepancies 
-	# between when the information is collected and when we process it.
-	POSTPROCESS='END { 
-		if (SPLUNKD==0) { printf "%s app=\"Splunk\" StartMode=Disabled\n", DATE }
-		printf "%s %s", DATE, "file_hash="
-		printf "%s", FULLTEXT | "LD_LIBRARY_PATH=$SPLUNK_HOME/lib $SPLUNK_HOME/bin/openssl sha1"
-	}'
+		# Send the collected full text to openssl; this avoids any timing discrepancies 
+		# between when the information is collected and when we process it.
+		POSTPROCESS='END { 
+			if (SPLUNKD==0) { printf "%s app=\"Splunk\" StartMode=Disabled\n", DATE }
+			printf "%s %s", DATE, "file_hash="
+			printf "%s", FULLTEXT | "LD_LIBRARY_PATH=$SPLUNK_HOME/lib $SPLUNK_HOME/bin/openssl sha1"
+		}'
+	else
+		assertHaveCommand systemctl
+		assertHaveCommand date
+
+		# Run the systemctl command to get all units and their state
+		CMD='eval date; systemctl list-units --type=service --all'
+		PARSE_0='NR==1 {DATE=$0}'
+		PARSE_1='
+			# On header row, get lengths to the fields
+			 NR==2  {
+				match($0, /^ */); leading=RLENGTH;
+				match($0, /^.*DESC/); desclen=RLENGTH-4;
+				FULLTEXT="";
+				next;
+			}'
+		PARSE_2='{
+			# Stop at the empty line
+			if ( !NF ) { exit; }
+			# Skip the leading spaces
+			$0 = substr( $0, leading );
+			# the description spans fields so catch it seperately
+			desc=substr( $0, desclen );
+			FULLTEXT = FULLTEXT $0 "\n"
+			if ($1 ~ /[Ss][Pp][Ll][Uu][Nn][Kk]/) { SPLUNKD=1 }
+			printf "%s type=systemctl UNIT=%s, LOADED=%s, ACTIVE=%s, SUB=%s, DESCRIPTION=%s\n",DATE, $1, $2, $3, $4, desc
+		}'
+		MASSAGE="$PARSE_0 $PARSE_1 $PARSE_2"
+		POSTPROCESS='END { 
+			if (SPLUNKD==0) { printf "%s app=\"Splunk\" StartMode=Disabled\n", DATE }
+			printf "%s %s", DATE, "file_hash="
+			printf "%s", FULLTEXT | "LD_LIBRARY_PATH=$SPLUNK_HOME/lib $SPLUNK_HOME/bin/openssl sha1"
+		}'
+	fi
 
 elif [ "x$KERNEL" = "xSunOS" ] ; then
 	assertHaveCommand date

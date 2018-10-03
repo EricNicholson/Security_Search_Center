@@ -1,5 +1,5 @@
 #!/bin/sh                                                                                                
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.                                                                       
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.                                                                       
 #                                                                                                        
 #   Licensed under the Apache License, Version 2.0 (the "License");                                      
 #   you may not use this file except in compliance with the License.                                     
@@ -21,7 +21,7 @@
 
 if [ "x$KERNEL" = "xLinux" -o "x$KERNEL" = "xDarwin" ] ; then
 	assertHaveCommand date
-	
+	assertHaveCommand lsof
 	if [ -f /usr/sbin/lsof ] ; then
 		LSOF=/usr/sbin/lsof
 	elif [ -f /usr/bin/lsof ] ; then

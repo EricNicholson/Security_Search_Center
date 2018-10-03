@@ -1,5 +1,5 @@
 #!/bin/sh                                                                                                
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.                                                                      
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.                                                                      
 #                                                                                                        
 #   Licensed under the Apache License, Version 2.0 (the "License");                                      
 #   you may not use this file except in compliance with the License.                                     
@@ -22,7 +22,7 @@ PRINTF='{printf "%-50s  %-10s  %10s  %10s  %10s  %10s    %s\n", $1, $2, $3, $4, 
 if [ "x$KERNEL" = "xLinux" ] ; then
 	assertHaveCommand df
 	CMD='df -TPh'
-	FILTER_POST='($2 ~ /^(tmpfs)$/) {next}'
+	FILTER_POST='($2 ~ /^(devtmpfs|tmpfs)$/) {next}'
 elif [ "x$KERNEL" = "xSunOS" ] ; then
 	assertHaveCommandGivenPath /usr/bin/df
 	if $SOLARIS_8; then

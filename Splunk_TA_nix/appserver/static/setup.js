@@ -19,26 +19,25 @@ require([
     var MonitorInputs = sdkx_monitor_inputs.MonitorInputs;
     
     var service = mvc.createService();
+    var cleaned_data = {};
     
     // -------------------------------------------------------------------------
     // Prerequisite Checks
     
     // Error if running on unrecognized unix
     // 
-    // JIRA: Workaround lack of API to build URLs that are agnostic
-    //       to the root endpoint location and locale. (SPL-91659)
-    var PATH_TO_ROOT = '../../..';
-    $.ajax({
-        type: 'GET',
-        url: PATH_TO_ROOT + '/en-US/custom/Splunk_TA_nix/setup/is_unix'
-    }).always(function(data, responseStatus) {
-        if (responseStatus === 'success') {
-            var isRecognizedUnix = data;
+    service.get('/services/SetupService', cleaned_data, function(err, response){
+        if(err){
+            console.error("Problem fetching data", err)
+        }
+        else if(response.status === 200){
+	    var isRecognizedUnix = JSON.parse(response.data);
             if (!isRecognizedUnix) {
                 $('#not-unix-error').show();
                 $('#save-btn').addClass('disabled');
             }
-        } else {
+        }
+        else {
             console.error('Problem checking whether splunkweb is running on Unix.');
         }
     });
@@ -103,18 +102,21 @@ require([
     
     // Enable All button
     $('.enable-all-btn').click(function(e) {
+        e.preventDefault();
         var table = $(e.target).closest('.input-table');
         $('.input .enable-btn', table).prop('checked', true);
     });
     
     // Disable All button
     $('.disable-all-btn').click(function(e) {
+		e.preventDefault();
         var table = $(e.target).closest('.input-table');
         $('.input .disable-btn', table).prop('checked', true);
     });
     
     // Save button
-    $('#save-btn').click(function() {
+    $('#save-btn').click(function(e) {
+		e.preventDefault();
         if ($('#save-btn').hasClass('disabled')) {
             return;
         }
@@ -150,6 +152,13 @@ require([
             }, saveDone);
         });
         
+        //Set is_configured=true in app.conf
+        service.post('/services/SetupService', cleaned_data, function(err, response){
+            if(err){
+                console.log("Error saving configuration in app.conf")
+            }
+        });
+
         // After saves are complete...
         function saveDone(err, entity) {
             if (err) {

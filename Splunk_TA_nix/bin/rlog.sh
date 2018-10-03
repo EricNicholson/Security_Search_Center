@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ if [ "x$KERNEL" = "xLinux" ] ; then
     assertHaveCommand service
     assertHaveCommandGivenPath /sbin/ausearch
     if [ -n "`service auditd status`" -a "$?" -eq 0 ] ; then
-            if [ -a $SEEK_FILE ] ; then
+            if [ -e $SEEK_FILE ] ; then
                 SEEK=`head -1 $SEEK_FILE`
             else
                 SEEK=0

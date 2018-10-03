@@ -1,5 +1,5 @@
 #!/bin/sh                                                                                                
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.                                                                       
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.                                                                       
 #                                                                                                        
 #   Licensed under the Apache License, Version 2.0 (the "License");                                      
 #   you may not use this file except in compliance with the License.                                     
@@ -21,7 +21,14 @@ PRINTF='{printf "%-5s  %6s  %6s  %-30.30s  %-30.30s  %-s\n", $1, $2, $3, $4, $5,
 FILL_BLANKS='($1=="udp") {$6="<n/a>"}'
 
 if [ "x$KERNEL" = "xLinux" ] ; then
-	CMD='eval netstat -aenp 2>/dev/null | egrep "tcp|udp"'
+	queryHaveCommand ss
+	FOUND_SS=$?
+	if [ $FOUND_SS -eq 0 ] ; then
+		CMD='eval ss -antu 2>/dev/null | egrep "tcp|udp"'
+		FORMAT='{ state=$2; $2=$3; $3=$4; $4=$5; $5=$6; $6=state}'
+	else
+		CMD='eval netstat -aenp 2>/dev/null | egrep "tcp|udp"'
+	fi
 elif [ "x$KERNEL" = "xSunOS" ] ; then
 	CMD='netstat -an -f inet -f inet6'
 	FIGURE_SECTION='NR==1 {inUDP=1;inTCP=0} /^TCP: IPv/ {inUDP=0;inTCP=1} /^SCTP:/ {exit}'

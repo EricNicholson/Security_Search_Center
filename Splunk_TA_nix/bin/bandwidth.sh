@@ -1,5 +1,5 @@
 #!/bin/sh                                                                                                
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.                                                                      
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.                                                                      
 #                                                                                                        
 #   Licensed under the Apache License, Version 2.0 (the "License");                                      
 #   you may not use this file except in compliance with the License.                                     
@@ -25,14 +25,45 @@ if [ "x$KERNEL" = "xLinux" ] ; then
     FILTER='($0 !~ "Average" || $0 ~ "sar" || $2 ~ "lo|IFACE") {next}'
     FORMAT='{Name=$2; rxPackets_PS=$3; txPackets_PS=$4; rxKB_PS=$5; txKB_PS=$6}'
 elif [ "x$KERNEL" = "xSunOS" ] ; then
-    CMD='sar -n DEV 1 2'
-    FILTER='($0 ~ "Time|sar| lo") {next}'
-    FORMAT='{Name=$2; rxPackets_PS=$5; txPackets_PS=$6; rxKB_PS=$3; txKB_PS=$4}'
+    if $SOLARIS_10 ; then
+        CMD='netstat -i 1 2'
+        FILTER='(NR==2||NR==3){next}'
+        EXTRACT_NAME='NR==1 {for (i=0; i< NF/3 -1; i++) { name[i]=$(i*3 + 2); location[name[i]]=i }}'
+        EXTRACT_FIELDS=' NR==4 { for (each in name){ printf "%s     %s     %s      %s      %s\n",name[each], $(5*location[name[each]]+1), $(5*location[name[each]]+3), "<n/a>","<n/a>"; }}'
+        PRINTF=''
+        FORMAT="$EXTRACT_NAME $EXTRACT_FIELDS"
+
+    elif $SOLARIS_11 ; then
+        dlstat 1 1 > /dev/null 2>&1
+		if [ $? -ne 0 ] ; then
+			CMD='netstat -i 1 2'
+			FILTER='(NR==2||NR==3){next}'
+			EXTRACT_NAME='NR==1 {for (i=0; i< NF/3 -1; i++) { name[i]=$(i*3 + 2); location[name[i]]=i }}'
+			EXTRACT_FIELDS=' NR==4 { for (each in name){ printf "%s     %s     %s      %s      %s\n",name[each], $(5*location[name[each]]+1), $(5*location[name[each]]+3), "<n/a>","<n/a>"; }}'
+			PRINTF=''
+			FORMAT="$EXTRACT_NAME $EXTRACT_FIELDS"
+		else
+			CMD='dlstat 1 2'
+			FILTER='(NR==1||NR==2){next}'
+			FORMAT='
+				function to_kbps(KBPS_param){
+					if(KBPS_param ~ /[Kk]$/){ sub(/[A-Za-z]/,"",KBPS_param); return(KBPS_param); }
+					else if(KBPS_param ~ /[Gg]$/){ sub(/[A-Za-z]/,"",KBPS_param); return(KBPS_param*1024*1024); }
+					else if(KBPS_param ~ /[Mm]$/){ sub(/[A-Za-z]/,"",KBPS_param); return(KBPS_param*1024); } 
+					sub(/[a-zA-Z]/,"",KBPS_param); return(KBPS_param/1024);
+				}
+				{Name=$1; rxPackets_PS=$2; txPackets_PS=$4; rxKB_PS=to_kbps($3); txKB_PS=to_kbps($5);}'
+		fi
+    else
+        CMD='sar -n DEV 1 2'
+        FILTER='($0 ~ "Time|sar| lo") {next}'
+        FORMAT='{Name=$2; rxPackets_PS=$5; txPackets_PS=$6; rxKB_PS=$3; txKB_PS=$4}'
+    fi
 elif [ "x$KERNEL" = "xAIX" ] ; then
     # Sample output: http://www-01.ibm.com/support/knowledgecenter/ssw_aix_61/com.ibm.aix.performance/nestat_in.htm
-    CMD='netstat -i -Z; netstat -in'
-    FILTER='($0 ~ "Name|sar| lo") {next}'
-    FORMAT='{Name=$1; rxPackets_PS=$5; txPackets_PS=$7; rxKB_PS=?; txKB_PS=?}'
+    CMD='eval netstat -i -Z; sleep 1; netstat -in'
+    FILTER='($0 ~ "Name|sar|lo") {next}'
+    FORMAT='{Name=$1; rxPackets_PS=$5; txPackets_PS=$7; rxKB_PS="?"; txKB_PS="?"}'
 elif [ "x$KERNEL" = "xDarwin" ] ; then
     CMD='sar -n DEV 1 2'
     FILTER='($0 !~ "Average" || $0 ~ "sar" || $2~/lo[0-9]|IFACE/) {next}'

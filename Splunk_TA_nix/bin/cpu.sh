@@ -1,5 +1,5 @@
 #!/bin/sh                                                
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.                                      
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.                                      
 #                                                    
 #   Licensed under the Apache License, Version 2.0 (the "License");                      
 #   you may not use this file except in compliance with the License.                     
@@ -26,14 +26,14 @@ if [ "x$KERNEL" = "xLinux" ] ; then
     FOUND_MPSTAT=$?
     if [ $FOUND_SAR -eq 0 ] ; then
         CMD='sar -P ALL 1 1'
-        FORMAT='{cpu=$3; pctUser=$4; pctNice=$5; pctSystem=$6; pctIowait=$7; pctIdle=$NF}'
+        FORMAT='{cpu=$(NF-6); pctUser=$(NF-5); pctNice=$(NF-4); pctSystem=$(NF-3); pctIowait=$(NF-2); pctIdle=$NF}'
     elif [ $FOUND_MPSTAT -eq 0 ] ; then
         CMD='mpstat -P ALL 1 1'
-        FORMAT='{cpu=$(NF-9); pctUser=$(NF-8); pctNice=$(NF-7); pctSystem=$(NF-6); pctIowait=$(NF-5); pctIdle=$(NF-1)}'
+        FORMAT='{cpu=$(NFIELDS-10); pctUser=$(NFIELDS-9); pctNice=$(NFIELDS-8); pctSystem=$(NFIELDS-7); pctIowait=$(NFIELDS-6); pctIdle=$NF}'
     else
         failLackMultipleCommands sar mpstat
     fi
-    FILTER='/Average|Linux|^$|%/ {next} (NR==1) {next}'
+    FILTER='($0 ~ /CPU/) { if($(NF-1) ~ /gnice/){  NFIELDS=NF; } else {NFIELDS=NF+1;} next} /Average|Linux|^$|%/ {next}'
 elif [ "x$KERNEL" = "xSunOS" ] ; then
     if [ $SOLARIS_8 -o $SOLARIS_9 ] ; then
         CMD='eval mpstat -a -p 1 1 | tail -1 | sed "s/^[ ]*0/all/"; mpstat -p 1 1 | tail -r'

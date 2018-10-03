@@ -1,5 +1,5 @@
 #!/bin/sh                                                                                                
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.                                                                      
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.
 #                                                                                                        
 #   Licensed under the Apache License, Version 2.0 (the "License");                                      
 #   you may not use this file except in compliance with the License.                                     
@@ -20,20 +20,30 @@ FORMAT='{mac = length(mac) ? mac : "?"; collisions = length(collisions) ? collis
 PRINTF='END {printf "%-10s %-17s  %-15s  %-42s %-10s  %-16s %-16s %-16s %-16s %-12s %-12s\n", name, mac, IPv4, IPv6, collisions, RXbytes, RXerrors, TXbytes, TXerrors, speed, duplex}'
 
 if [ "x$KERNEL" = "xLinux" ] ; then
-	assertHaveCommand ifconfig
-	assertHaveCommand dmesg
-
-	CMD_LIST_INTERFACES="eval ifconfig | tee $TEE_DEST | grep 'Link encap:Ethernet' | tee -a $TEE_DEST | cut -d' ' -f1 | tee -a $TEE_DEST"
-	CMD='ifconfig'
-	GET_MAC='{NR == 1 && mac = $5}'
-	GET_IPv4='{if ($0 ~ /inet addr:/) {split($2, a, ":"); IPv4 = a[2]}}'
-	GET_IPv6='{$0 ~ /inet6 addr:/ && IPv6 = $3}'
-	GET_COLLISIONS='{if ($0 ~ /collisions:/) {split($1, a, ":"); collisions = a[2]}}'
-	GET_RXbytes='{if ($0 ~ /RX bytes:/) {split($2, a, ":"); RXbytes= a[2]}}'
-	GET_RXerrors='{if ($0 ~ /RX packets:/) {split($3, a, ":"); RXerrors=a[2]}}'
-	GET_TXbytes='{if ($0 ~ /TX bytes:/) {split($6, a, ":"); TXbytes= a[2]}}'
-	GET_TXerrors='{if ($0 ~ /TX packets:/) {split($3, a, ":"); TXerrors=a[2]}}'
-	GET_ALL="$GET_MAC $GET_IPv4 $GET_IPv6 $GET_COLLISIONS $GET_RXbytes $GET_RXerrors $GET_TXbytes $GET_TXerrors"
+	queryHaveCommand ip
+	FOUND_IP=$?
+	queryHaveCommand ethtool
+	FOUND_ETHTOOL=$?
+	if [ $FOUND_IP -eq 0 ]; then
+		CMD_LIST_INTERFACES="eval ip -s a | tee $TEE_DEST | grep mtu | grep -Ev lo | tee -a $TEE_DEST | cut -d':' -f2 | tee -a $TEE_DEST | cut -d '@' -f 1 | tee -a $TEE_DEST | sort -u | tee -a $TEE_DEST"
+		CMD='eval ip addr show $iface; ip -s link show'
+		GET_IPv4='{if ($0 ~ /inet /) {split($2, a, " "); IPv4 = a[1]}}'
+		GET_IPv6='{if ($0 ~ /inet6 /) { IPv6 = $2 }}'
+		GET_TXbytes='($0 ~ /TX: bytes /) {nr[NR+1]} NR in nr { TXbytes=$1; TXerrors=$3; collisions=$6; }'
+		GET_RXbytes='($0 ~ /RX: bytes /) {nr2[NR+1]} NR in nr2 { RXbytes=$1; RXerrors=$3; }'
+	else
+		assertHaveCommand ifconfig
+		CMD_LIST_INTERFACES="eval ifconfig | tee $TEE_DEST | grep 'Link encap:\|mtu' | grep -Ev lo | tee -a $TEE_DEST | cut -d' ' -f1 | cut -d':' -f1 | tee -a $TEE_DEST | sort -u | tee -a $TEE_DEST"
+		CMD='ifconfig'
+		GET_IPv4='{if ($0 ~ /inet addr:/) {split($2, a, ":"); IPv4 = a[2]} else if ($0 ~ /inet /) {IPv4 = $2}}'
+		GET_IPv6='{if ($0 ~ /inet6 addr:/) { IPv6 = $3 } else if ($0 ~ /inet6 /) { IPv6 = $2 }}'
+		GET_COLLISIONS='{if ($0 ~ /collisions:/) {split($1, a, ":"); collisions = a[2]; } else if ($10 ~ /collisions /) { collisions = $11; }}'
+		GET_RXbytes='{if ($0 ~ /RX bytes:/) {split($2, a, ":"); RXbytes= a[2];} else if ($0 ~ /RX packets /) { RXbytes=$5; }}'
+		GET_RXerrors='{if ($0 ~ /RX packets:/) {split($3, a, ":"); RXerrors=a[2]; } else if ($0 ~ /RX errors /) { RXerrors=$3; }}'
+		GET_TXbytes='{if ($0 ~ /TX bytes:/) {split($6, a, ":"); TXbytes= a[2]; } else if ($0 ~ /TX packets /) { TXbytes=$5; }}'
+		GET_TXerrors='{if ($0 ~ /TX packets:/) {split($3, a, ":"); TXerrors=a[2]; } else if ($0 ~ /TX errors /) { TXerrors=$3; }}'
+	fi
+	GET_ALL="$GET_IPv4 $GET_IPv6 $GET_COLLISIONS $GET_RXbytes $GET_RXerrors $GET_TXbytes $GET_TXerrors"
 	FILL_BLANKS='{length(speed) || speed = "<n/a>"; length(duplex) || duplex = "<n/a>"; length(IPv4) || IPv4 = "<n/a>"; length(IPv6) || IPv6= "<n/a>"}'
 	BEGIN='BEGIN {RXbytes = TXbytes = collisions = 0}'
 
@@ -41,16 +51,41 @@ if [ "x$KERNEL" = "xLinux" ] ; then
 	for iface in `$CMD_LIST_INTERFACES`
 	do
 		# ethtool(8) would be preferred, but requires root privs; so we use dmesg(8), whose [a] source can be cleared, and [b] output format varies (so we have less confidence in parsing)
-		SPEED=`dmesg  | awk '/[Ll]ink( is | )[Uu]p/ && /'$iface'/ {for (i=1; i<=NF; ++i) {if (match($i, /([0-9]+)([Mm]bps)/))             {print $i} else { if (match($i, /[Mm]bps/))   {print $(i-1) "Mb/s"} } } }' | sed '$!d'`
-		DUPLEX=`dmesg | awk '/[Ll]ink( is | )[Uu]p/ && /'$iface'/ {for (i=1; i<=NF; ++i) {if (match($i, /([\-\_a-zA-Z0-9]+)([Dd]uplex)/)) {print $i} else { if (match($i, /[Dd]uplex/)) {print $(i-1)       } } } }' | sed 's/[-_]//g; $!d'`
-		$CMD $iface | tee -a $TEE_DEST | awk "$BEGIN $GET_ALL $FILL_BLANKS $PRINTF" name=$iface speed=$SPEED duplex=$DUPLEX
-		echo "Cmd = [$CMD $iface];     | awk '$BEGIN $GET_ALL $FILL_BLANKS $PRINTF' name=$iface speed=$SPEED duplex=$DUPLEX" >> $TEE_DEST
+		if [ -r /sys/class/net/$iface/duplex ]; then
+			DUPLEX=`cat /sys/class/net/$iface/duplex | sed 's/./\u&/'`
+			if [ -r /sys/class/net/$iface/speed ]; then
+				SPEED=`cat /sys/class/net/$iface/speed`
+				[ ! -z "$SPEED" ] && SPEED="${SPEED}Mb/s"
+			elif [ $FOUND_ETHTOOL -eq 0 ]; then
+				SPEED=`ethtool $iface | grep Speed: | sed -e 's/^[ \t]*//' | tr -s ' ' | cut -d' ' -f2`
+			else
+				assertHaveCommand dmesg
+				SPEED=`dmesg  | awk '/[Ll]ink( is | )[Uu]p/ && /'$iface'/ {for (i=1; i<=NF; ++i) {if (match($i, /([0-9]+)([Mm]bps)/))             {print $i} else { if (match($i, /[Mm]bps/))   {print $(i-1) "Mb/s"} } } }' | sed '$!d'`
+			fi
+		elif [ $FOUND_ETHTOOL -eq 0 ]; then
+			SPEED=`ethtool $iface | grep Speed: | sed -e 's/^[ \t]*//' | tr -s ' ' | cut -d' ' -f2`
+			DUPLEX=`ethtool $iface | grep Duplex: | sed -e 's/^[ \t]*//' | tr -s ' ' | cut -d' ' -f2`
+		else
+			assertHaveCommand dmesg
+			SPEED=`dmesg  | awk '/[Ll]ink( is | )[Uu]p/ && /'$iface'/ {for (i=1; i<=NF; ++i) {if (match($i, /([0-9]+)([Mm]bps)/))             {print $i} else { if (match($i, /[Mm]bps/))   {print $(i-1) "Mb/s"} } } }' | sed '$!d'`
+			DUPLEX=`dmesg | awk '/[Ll]ink( is | )[Uu]p/ && /'$iface'/ {for (i=1; i<=NF; ++i) {if (match($i, /([\-\_a-zA-Z0-9]+)([Dd]uplex)/)) {print $i} else { if (match($i, /[Dd]uplex/)) {print $(i-1)       } } } }' | sed 's/[-_]//g; $!d'`
+		fi
+		if [ $FOUND_IP -eq 0 ]; then
+			GET_MAC='{if ($0 ~ /ether /) { mac = $2 }}'
+		elif [ -r /sys/class/net/$iface/address ]; then
+			MAC=`cat /sys/class/net/$iface/address`
+		else
+			GET_MAC='{if ($0 ~ /ether /) { mac = $2; } else if ( NR == 1 ) { mac = $5; }}'
+		fi
+		$CMD $iface | tee -a $TEE_DEST | awk "$BEGIN $GET_MAC $GET_ALL $FILL_BLANKS $PRINTF" name=$iface speed=$SPEED duplex=$DUPLEX mac=$MAC
+		echo "Cmd = [$CMD $iface];     | awk '$BEGIN $GET_MAC $GET_ALL $FILL_BLANKS $PRINTF' name=$iface speed=$SPEED duplex=$DUPLEX mac=$MAC" >> $TEE_DEST
 	done
+
 elif [ "x$KERNEL" = "xSunOS" ] ; then
 	assertHaveCommandGivenPath /usr/sbin/ifconfig
 	assertHaveCommand kstat
 
-	CMD_LIST_INTERFACES="eval /usr/sbin/ifconfig -au | tee $TEE_DEST | egrep -v 'LOOPBACK|netmask' | tee -a $TEE_DEST | grep flags | cut -d':' -f1"
+	CMD_LIST_INTERFACES="eval /usr/sbin/ifconfig -au | tee $TEE_DEST | egrep -v 'LOOPBACK|netmask' | tee -a $TEE_DEST | grep flags | cut -d':' -f1 | tee -a $TEE_DEST | sort -u | tee -a $TEE_DEST"
 	if [ SOLARIS_8 = false ] && [ SOLARIS_9 = false] ; then
 		GET_COLLISIONS_RXbytes_TXbytes_SPEED_DUPLEX='($1=="collisions") {collisions=$2} (/duplex/) {duplex=$2} ($1=="rbytes") {RXbytes=$2} ($1=="obytes") {TXbytes=$2} (/ierrors/) {RXerrors=$2} (/oerrors/) {TXerrors=$2} ($1=="ifspeed") {speed=$2; speed/=1000000; speed=speed "Mb/s"}' 
 	else
@@ -78,7 +113,7 @@ elif [ "x$KERNEL" = "xAIX" ] ; then
 	assertHaveCommandGivenPath /usr/sbin/ifconfig
 	assertHaveCommandGivenPath /usr/bin/netstat
 
-	CMD_LIST_INTERFACES="eval /usr/sbin/ifconfig -au | tee $TEE_DEST | egrep -v 'LOOPBACK|netmask|inet6|tcp_sendspace' | tee $TEE_DEST | grep flags | cut -d':' -f1"
+	CMD_LIST_INTERFACES="eval /usr/sbin/ifconfig -au | tee $TEE_DEST | egrep -v 'LOOPBACK|netmask|inet6|tcp_sendspace' | tee -a $TEE_DEST | grep flags | cut -d':' -f1 | tee -a $TEE_DEST | sort -u | tee -a $TEE_DEST"
 	GET_COLLISIONS_RXbytes_TXbytes_SPEED_DUPLEX_ERRORS='($1=="Single"){collisions_s=$4} ($1=="Multiple"){collisions=collisions_s+$4} ($1=="Bytes:") {RXbytes=$4 ; TXbytes=$2} ($1=="Media" && $3=="Running:") {speed=$4"Mb/s" ; duplex=$6} ($1="Transmit" && $2="Errors:") {TXerrors=$3 ; RXerrors=$6}'
 	GET_IP='/ netmask / {for (i=1; i<=NF; i++) {if ($i == "inet") IPv4 = $(i+1); if ($i == "inet6") IPv6 = $(i+1)}}'
 	GET_MAC='/^Hardware Address:/{mac=$3}'
@@ -100,7 +135,7 @@ elif [ "x$KERNEL" = "xDarwin" ] ; then
 
 	CMD_LIST_INTERFACES='ifconfig -u'
 	CHOOSE_ACTIVE='/^[a-z0-9]+: / {sub(":", "", $1); iface=$1} /status: active/ {print iface}'
-
+	UNIQUE='sort -u'
 	GET_MAC='{$1 == "ether" && mac = $2}'
 	GET_IPv4='{$1 == "inet" && IPv4 = $2}'
 	GET_IPv6='{if ($1 == "inet6") {sub("%.*$", "", $2);IPv6 = $2}}'
@@ -109,9 +144,9 @@ elif [ "x$KERNEL" = "xDarwin" ] ; then
 	GET_ALL="$GET_MAC $GET_IPv4 $GET_IPv6 $GET_SPEED_DUPLEX $GET_RXbytes_TXbytes_COLLISIONS_ERRORS"
 
 	echo "$HEADER"
-	for iface in `$CMD_LIST_INTERFACES | tee $TEE_DEST | awk "$CHOOSE_ACTIVE"`
+	for iface in `$CMD_LIST_INTERFACES | tee $TEE_DEST | awk "$CHOOSE_ACTIVE" | $UNIQUE | tee -a $TEE_DEST`
 	do
-		echo "Cmd = [$CMD_LIST_INTERFACES];  | awk '$CHOOSE_ACTIVE'" >> $TEE_DEST
+		echo "Cmd = [$CMD_LIST_INTERFACES];  | awk '$CHOOSE_ACTIVE' | $UNIQUE" >> $TEE_DEST
 		CMD_DESCRIBE_INTERFACE="eval ifconfig $iface ; netstat -b -I $iface"
 		$CMD_DESCRIBE_INTERFACE | tee -a $TEE_DEST | awk "$GET_ALL $PRINTF" name=$iface 
 		echo "Cmd = [$CMD_DESCRIBE_INTERFACE];     | awk '$GET_ALL $PRINTF' name=$iface" >> $TEE_DEST
@@ -136,6 +171,7 @@ elif [ "x$KERNEL" = "xFreeBSD" ] ; then
 
 	CMD_LIST_INTERFACES='ifconfig -a'
 	CHOOSE_ACTIVE='/LOOPBACK/ {next} !/RUNNING/ {next} /^[a-z0-9]+: / {sub(":$", "", $1); print $1}'
+	UNIQUE='sort -u'
 	GET_MAC='{$1 == "ether" && mac = $2}'
 	GET_IP='/ netmask / {for (i=1; i<=NF; i++) {if ($i == "inet") IPv4 = $(i+1); if ($i == "inet6") IPv6 = $(i+1)}}'
 	GET_SPEED_DUPLEX='/media: / {sub("\134(", "", $4); speed=$4; sub("-duplex.*", "", $5); sub("<", "", $5); duplex=$5}'
@@ -144,9 +180,9 @@ elif [ "x$KERNEL" = "xFreeBSD" ] ; then
 	GET_ALL="$GET_MAC $GET_IP $GET_SPEED_DUPLEX $GET_RXbytes_TXbytes_COLLISIONS_ERRORS $FILL_BLANKS"
 
 	echo "$HEADER"
-	for iface in `$CMD_LIST_INTERFACES | tee $TEE_DEST | awk "$CHOOSE_ACTIVE"`
+	for iface in `$CMD_LIST_INTERFACES | tee $TEE_DEST | awk "$CHOOSE_ACTIVE" | $UNIQUE | tee -a $TEE_DEST`
 	do
-		echo "Cmd = [$CMD_LIST_INTERFACES];  | awk '$CHOOSE_ACTIVE'" >> $TEE_DEST
+		echo "Cmd = [$CMD_LIST_INTERFACES];  | awk '$CHOOSE_ACTIVE' | $UNIQUE" >> $TEE_DEST
 		CMD_DESCRIBE_INTERFACE="eval ifconfig $iface ; netstat -b -I $iface"
 		$CMD_DESCRIBE_INTERFACE | tee -a $TEE_DEST | awk "$GET_ALL $PRINTF" name=$iface 
 		echo "Cmd = [$CMD_DESCRIBE_INTERFACE];     | awk '$GET_ALL $PRINTF' name=$iface" >> $TEE_DEST

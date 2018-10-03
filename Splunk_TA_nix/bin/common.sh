@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,7 +17,11 @@
 unset LD_PRELOAD LD_LIBRARY_PATH DYLD_LIBRARY_PATH SHLIB_PATH LIBPATH
 
 # # # NIX-203 - set LANG env variable set to en_US to avoid parsing problems in other locales
-LANG="en_US.UTF-8"
+EngLocale=`locale -a | grep -i "en_US.utf"`
+if [ ! -z "$EngLocale" ]; then
+    LANG=`echo $EngLocale | awk 'NR==1 {printf $1}'`
+    export LANG
+fi
 
 # # # are we in debug mode?
 if [ $# -ge 1 -a "x$1" = "x--debug" ] ; then

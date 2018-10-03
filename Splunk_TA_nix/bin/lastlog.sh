@@ -1,5 +1,5 @@
 #!/bin/sh                                                                                                
-# Copyright (C) 2005-2015 Splunk Inc. All Rights Reserved.                                                                      
+# Copyright (C) 2018 Splunk Inc. All Rights Reserved.                                                                      
 #                                                                                                        
 #   Licensed under the Apache License, Version 2.0 (the "License");                                      
 #   you may not use this file except in compliance with the License.                                     
@@ -20,9 +20,9 @@ HEADERIZE="BEGIN {print \"$HEADER\"}"
 PRINTF='{printf "%-30s  %-30.30s  %-s\n", username, from, latest}'
 
 if [ "x$KERNEL" = "xLinux" ] ; then
-	CMD='lastlog'
-	FILTER='/Never logged in/ {next} (NR==1) {next}'
-	FORMAT='{username = $1; from = (NF==9) ? $3 : "<console>"; latest=$(NF-4) " " $(NF-3) " " $(NF-2) " " $NF}'
+	CMD='last -iw'
+	FILTER='{if ($0 == "") exit; if ($1 ~ /reboot|shutdown/ || $1 in users) next; users[$1]=1}'
+	FORMAT='{username = $1; from = (NF==10) ? $3 : "<console>"; latest = $(NF-6) " " $(NF-5) " " $(NF-4) " " $(NF-3)}'
 elif [ "x$KERNEL" = "xSunOS" ] ; then
 	CMD='last -n 999'
 	FILTER='{if ($0 == "") exit; if ($1 ~ /reboot|shutdown/ || $1 in users) next; users[$1]=1}'
